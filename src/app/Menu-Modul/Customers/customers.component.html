@@ -1,0 +1,67 @@
+<header></header>
+<div #table class="ml-5 mt-3">
+  <div class="d-flex col-6">
+    <div class="flex-grow-1 ">
+      <mat-form-field class="">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>      
+    </div>
+    <div class="bd-highlight">     
+      <button mat-icon-button>
+        <mat-icon class="">add_circle</mat-icon>
+      </button>    
+      <button (click)="clickOnDeleteButton(row)" *ngIf="toggle" mat-icon-button>
+       <mat-icon class="">delete</mat-icon>
+      </button>    
+     </div>
+     
+  </div> 
+ 
+   <!-- TABLE -->
+  <div class="mat-elevation-z8 col-9">
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      </ng-container>
+  
+      <!-- Progress Column -->
+      <ng-container matColumnDef="ad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ad </th>
+        <td mat-cell *matCellDef="let row"> {{row.ad}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="soyad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Soyad </th>
+        <td mat-cell *matCellDef="let row"> {{row.soyad}} </td>
+      </ng-container>
+  
+      <!-- Color Column -->
+      <ng-container matColumnDef="bakiye">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Bakiye </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.bakiye}} </td>
+      </ng-container>
+
+       <!-- Date Column -->
+       <ng-container matColumnDef="tarih">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tarih </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.tarih | date}} </td>
+      </ng-container>
+  
+      <tr mat-header-row
+      *matHeaderRowDef="displayedColumns"      
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;
+      "(click)="clickOnListItem(row)"
+      
+      [ngClass]="{'data-selected':row.id===selectedRowId && toggle}">
+      </tr>
+    </table>
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <!-- TABLE -->
+  </div>
+</div>
