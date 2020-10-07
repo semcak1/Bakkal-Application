@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Observable } from 'rxjs';
+import { FirebaseService } from 'src/app/core/firebase.service';
+import { Customer } from 'src/app/shared/models/customerModel';
 
 export interface CustomerData {
   id: string;
@@ -15,38 +18,41 @@ export interface CustomerData {
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'ad', 'soyad', 'bakiye','tarih'];
-  dataSource: MatTableDataSource<CustomerData>;
+  displayedColumns: string[] = ['id', 'ad', 'soyad', 'bakiye'];
+  dataSource: MatTableDataSource<Customer>;
   selectedRowId;
   toggle:boolean=false;
+  customers:Customer[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { 
-     // Create 100 users
-     const customer=[
-       { id: '1',
-        ad: 'Semih',
-        soyad: 'çakmak',
-        bakiye: 300,
-        tarih:new Date()},
-        { id: '2',
-        ad: 'SÜeda',
-        soyad: 'çakmak',
-        bakiye: 500,
-        tarih:new Date()}
-     ]
-
-     // Assign the data to the data source for the table to render
-     this.dataSource = new MatTableDataSource(customer);
+  constructor(private firebaseService:FirebaseService) { 
+     
+     
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.getCustomers()
+   
+    console.log(this)
+   
+    
   }
   
+  //get data from firebase service
+  getCustomers(){
+    this.firebaseService.getDocuments("Customer").subscribe(res=>{
+      console.log(res)
+      this.customers=res
+      this.dataSource = new MatTableDataSource(this.customers);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+    
+    
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -56,7 +62,7 @@ export class CustomersComponent implements OnInit {
   }
 
   clickOnListItem(row){    
-      this.selectedRowId=row.id     
+      this.selectedRowId=row.customerId     
       this.toggle=true;
     setTimeout(() => {
       this.toggle=false

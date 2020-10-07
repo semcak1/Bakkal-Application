@@ -1,0 +1,36 @@
+<header></header>
+
+<form #customerForm="ngForm" (ngSubmit)="createCustomer(customerForm)"  class="ml-5 mt-5" action="">
+  <mat-form-field appearance="legacy">    
+    <input  #ad="ngModel" name="Ad" ngModel matInput required minlength="2" placeholder="Ad">    
+    <mat-hint>Örn: Fikret</mat-hint>
+    <mat-error *ngIf="ad.invalid && (ad.touched || ad.dirty)">
+      <p *ngIf="ad.errors.required">Zorunlu !</p>
+      <p *ngIf="ad.errors.minlength">İsim en az 2 karakter olmalı !</p>      
+    </mat-error>  
+  </mat-form-field>
+  
+  <mat-form-field appearance="legacy">    
+    <input #soyad="ngModel" name="Soyad" ngModel matInput required placeholder="Soyad">    
+    <mat-hint>Örn: Çakmak</mat-hint>
+    <mat-error *ngIf="soyad.invalid">
+      <p *ngIf="soyad.errors.required">Zorunlu !</p>        
+    </mat-error>  
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="legacy">    
+    <textarea name="Adres" ngModel matInput placeholder="Adres"></textarea>    
+    <mat-hint>Örn: Turan Emeksiz sokak.</mat-hint>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="legacy">    
+    <input name="Tel" ngModel matInput placeholder="Telefon">    
+    <mat-hint>Örn: 555 884 15 24</mat-hint>
+  </mat-form-field>
+  <br>
+  <div class="buttons mt-3">
+    <button [disabled]="customerForm.invalid" type="submit" class="mr-3" mat-raised-button color="primary">Ekle</button>
+  <button routerLink="/customers" mat-raised-button color="">İptal</button>
+  </div>
+  
+</form>

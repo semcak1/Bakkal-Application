@@ -9,7 +9,9 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,MaterialModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    
+    
   ],
   exports:[
     CommonModule,
