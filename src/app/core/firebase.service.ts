@@ -30,7 +30,8 @@ export class FirebaseService {
   }
 
   addCustomer(customer){
-    this.customerCollection.add(customer)
+    this.afs.collection<Customer>('Customer').add(customer)
+    console.log('customer added')
   }
   
 

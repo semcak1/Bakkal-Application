@@ -95,7 +95,8 @@ import {MatIconRegistry} from '@angular/material';
         MatGridListModule,
         MatBadgeModule,
         MatExpansionModule,
-        MatRadioModule
+        MatRadioModule,
+        MatDialogModule
         ],
     declarations: []
 })

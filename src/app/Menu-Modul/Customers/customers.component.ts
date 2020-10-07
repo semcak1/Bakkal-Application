@@ -1,16 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef, MatPaginator, MatSort, MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs';
 import { FirebaseService } from 'src/app/core/firebase.service';
 import { Customer } from 'src/app/shared/models/customerModel';
+import { DialogExComponent } from './dialog-ex/dialog-ex.component';
 
-export interface CustomerData {
-  id: string;
-  ad: string;
-  soyad: string;
-  bakiye: number;
-  tarih:Date;
-}
+
+
 
 @Component({
   selector: 'app-customers',
@@ -18,7 +14,7 @@ export interface CustomerData {
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'ad', 'soyad', 'bakiye'];
+  displayedColumns: string[] = ['id', 'ad', 'soyad', 'bakiye','işlemler'];
   dataSource: MatTableDataSource<Customer>;
   selectedRowId;
   toggle:boolean=false;
@@ -26,16 +22,17 @@ export class CustomersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  selectedRow: any;
 
-  constructor(private firebaseService:FirebaseService) { 
-     
-     
-  }
+  constructor(
+    private firebaseService:FirebaseService,
+    private dialog:MatDialog
+    ) { }
 
   ngOnInit() {
     this.getCustomers()
    
-    console.log(this)
+    
    
     
   }
@@ -61,16 +58,33 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  clickOnListItem(row){    
+  clickOnListItem(row){
+      this.selectedRow=row   
       this.selectedRowId=row.customerId     
       this.toggle=true;
-    setTimeout(() => {
-      this.toggle=false
-    }, 4000);
+    // setTimeout(() => {
+    //   this.toggle=false
+    // }, 4000);
   }
 
   clickOnDeleteButton(){
+    
     console.log(this.selectedRowId)
   }
+
+  //open dialog
+  openDialog(){
+    let dialogRef=  this.dialog.open(DialogExComponent,{data:this.selectedRow})
+
+    
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result===true){
+        
+      }
+      console.log(`dilog result is ${result}`)
+    })
+  
+  }
+
 }
 

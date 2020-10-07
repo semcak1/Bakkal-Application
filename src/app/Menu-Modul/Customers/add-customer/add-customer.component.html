@@ -1,30 +1,32 @@
 <header></header>
 
-<form #customerForm="ngForm" (ngSubmit)="createCustomer(customerForm)"  class="ml-5 mt-5" action="">
+<form #customerForm="ngForm" (ngSubmit)="createCustomer(customerForm);customerForm.reset()"  class="ml-5 mt-5" action="">
+  <input hidden #customerId="ngModel" name="customerId" [(ngModel)]="len" ngModel matInput required minlength="2" placeholder="Ad">
   <mat-form-field appearance="legacy">    
-    <input  #ad="ngModel" name="Ad" ngModel matInput required minlength="2" placeholder="Ad">    
+    <input  #name="ngModel" name="name" ngModel matInput required minlength="2" placeholder="Ad">    
     <mat-hint>Örn: Fikret</mat-hint>
-    <mat-error *ngIf="ad.invalid && (ad.touched || ad.dirty)">
-      <p *ngIf="ad.errors.required">Zorunlu !</p>
-      <p *ngIf="ad.errors.minlength">İsim en az 2 karakter olmalı !</p>      
+    <mat-error *ngIf="name.invalid && !name.untouched">
+      <p *ngIf="name.errors.required">Zorunlu !</p>
+      <p *ngIf="name.errors.minlength">İsim en az 2 karakter olmalı !</p>      
     </mat-error>  
   </mat-form-field>
   
   <mat-form-field appearance="legacy">    
-    <input #soyad="ngModel" name="Soyad" ngModel matInput required placeholder="Soyad">    
+    <input #surname="ngModel" name="surname" ngModel matInput required placeholder="Soyad">    
     <mat-hint>Örn: Çakmak</mat-hint>
-    <mat-error *ngIf="soyad.invalid">
-      <p *ngIf="soyad.errors.required">Zorunlu !</p>        
+    <mat-error *ngIf="surname.invalid && !surname.untouched ">
+      <p *ngIf="surname.errors.required">Zorunlu !</p>        
     </mat-error>  
   </mat-form-field>
   <br>
   <mat-form-field appearance="legacy">    
-    <textarea name="Adres" ngModel matInput placeholder="Adres"></textarea>    
+    <textarea name="adres" ngModel matInput placeholder="Adres"></textarea>    
     <mat-hint>Örn: Turan Emeksiz sokak.</mat-hint>
   </mat-form-field>
   <br>
+ 
   <mat-form-field appearance="legacy">    
-    <input name="Tel" ngModel matInput placeholder="Telefon">    
+    <input name="phone" ngModel matInput placeholder="Telefon">    
     <mat-hint>Örn: 555 884 15 24</mat-hint>
   </mat-form-field>
   <br>

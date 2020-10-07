@@ -10,10 +10,7 @@
       <button routerLink="/customerAdd"
        mat-icon-button>
         <mat-icon  class="">add_circle</mat-icon>
-      </button>    
-      <button (click)="clickOnDeleteButton(row)" *ngIf="toggle" mat-icon-button>
-       <mat-icon class="">delete</mat-icon>
-      </button>    
+      </button>     
      </div>
      
   </div> 
@@ -46,6 +43,18 @@
         <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.totalDept}} </td>
       </ng-container>
 
+      <!-- Actions Column -->
+      <ng-container matColumnDef="işlemler">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> İşlemler </th>
+        <td mat-cell *matCellDef="let row" >
+           <button (click)="openDialog()" *ngIf="row.customerId==selectedRowId && toggle" mat-icon-button>
+          <mat-icon class="anim">delete</mat-icon>
+          </button> 
+          <button (click)="clickOnDeleteButton(row)" *ngIf="row.customerId==selectedRowId && toggle" mat-icon-button>
+            <mat-icon class="anim">cached</mat-icon>
+            </button>
+         </td>
+      </ng-container>
        <!-- Date Column -->
        <!-- <ng-container matColumnDef="tarih">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Tarih </th>
@@ -56,8 +65,7 @@
       *matHeaderRowDef="displayedColumns"      
       ></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;
-      "(click)="clickOnListItem(row)"
-      
+      "(click)="clickOnListItem(row)"      
       [ngClass]="{'data-selected':row.customerId===selectedRowId && toggle}">
       </tr>
     </table>

@@ -10,11 +10,13 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
+import { MatDialogModule } from '@angular/material';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,9 +25,11 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     CoreModule,
     MenuModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
-    
+    AngularFirestoreModule,
+    MatDialogModule
+   
   ],
+  entryComponents:[],
   providers: [],
   bootstrap: [AppComponent]
 })

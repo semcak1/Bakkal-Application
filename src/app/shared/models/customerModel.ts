@@ -1,6 +1,6 @@
 export interface Customer
     {
-        customerId:number,
+        customerId?:number,
         name:string,
         surname:string,
         adres?:string,
