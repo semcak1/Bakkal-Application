@@ -9,12 +9,13 @@ import { AddCustomerComponent } from './Customers/add-customer/add-customer.comp
 
 import { MatDialogModule } from '@angular/material';
 import { DialogExComponent } from './Customers/dialog-ex/dialog-ex.component';
+import { CustomerDetailsComponent } from './Customers/customer-details/customer-details.component';
 
 SharedModule
 
 @NgModule({
   declarations: [
-    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent
+    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent
   ],
   imports: [
     CommonModule,MenuRoutingModule,CoreModule,SharedModule,MatDialogModule

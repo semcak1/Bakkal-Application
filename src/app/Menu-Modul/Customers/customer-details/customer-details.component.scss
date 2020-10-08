@@ -1,0 +1,32 @@
+.paid{
+    max-width: 100%;
+    max-height: 300px;
+    color:white;
+    background: linear-gradient(45deg, #1f8670, #24D972);
+}
+
+.debt{
+    max-width: 100%;
+    max-height: 300px;
+    color:white;
+    background: linear-gradient(45deg, #9b2929, #fa500d);
+}
+.subtitle{
+    color:white;
+    opacity: .6;
+    font-weight: 100;
+  
+}
+
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 50%;
+  }
+  
+  td, th {
+    width: 25%;
+  }

@@ -10,9 +10,10 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FirebaseService {
-  private itemDoc:AngularFirestoreDocument<Customer>
-  customers:Observable<Customer[]>
+  private itemDoc:AngularFirestoreDocument<any>
+  customers:Observable<any[]>
   private customerCollection:AngularFirestoreCollection<Customer>
+  debtCollection:AngularFirestoreCollection<any>
   constructor(private afs:AngularFirestore) {
     
     
@@ -36,6 +37,11 @@ export class FirebaseService {
   deleteCustomer(collection,id:string){
     this.afs.doc(collection+'/'+id).delete();
     console.log('customer deleted')
+  }
+
+  getAllDebt(id:String){
+    this.debtCollection=this.afs.collection('Customer/'+id+'/Debt');
+    return this.debtCollection.snapshotChanges();
   }
 
 }
