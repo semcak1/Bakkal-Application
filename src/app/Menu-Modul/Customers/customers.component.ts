@@ -1,53 +1,65 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef, MatPaginator, MatSort, MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs';
-import { FirebaseService } from 'src/app/core/firebase.service';
-import { Customer } from 'src/app/shared/models/customerModel';
-import { DialogExComponent } from './dialog-ex/dialog-ex.component';
-
-
-
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+  MatPaginator,
+  MatSort,
+  MatTableDataSource,
+} from "@angular/material";
+import { Observable } from "rxjs";
+import { FirebaseService } from "src/app/core/firebase.service";
+import { Customer } from "src/app/shared/models/customerModel";
+import { DialogExComponent } from "./dialog-ex/dialog-ex.component";
+import { map } from "rxjs/operators";
 
 @Component({
-  selector: 'app-customers',
-  templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.scss']
+  selector: "app-customers",
+  templateUrl: "./customers.component.html",
+  styleUrls: ["./customers.component.scss"],
 })
 export class CustomersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'ad', 'soyad', 'bakiye','işlemler'];
+  displayedColumns: string[] = ["id", "ad", "soyad", "bakiye", "işlemler"];
   dataSource: MatTableDataSource<Customer>;
   selectedRowId;
-  toggle:boolean=false;
-  customers:Customer[];
+  toggle: boolean = false;
+  customers: any[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   selectedRow: any;
 
   constructor(
-    private firebaseService:FirebaseService,
-    private dialog:MatDialog
-    ) { }
+    private firebaseService: FirebaseService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
-    this.getCustomers()
-   
-    
-   
-    
+    this.getCustomers();
   }
-  
+
   //get data from firebase service
-  getCustomers(){
-    this.firebaseService.getDocuments("Customer").subscribe(res=>{
-      console.log(res)
-      this.customers=res
-      this.dataSource = new MatTableDataSource(this.customers);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-    
-    
+  getCustomers() {
+    //
+    this.firebaseService
+      .getDocuments("Customer")
+      .pipe(
+        map((changes) =>
+          changes.map((c) => {
+            return {
+              id: c.payload.doc.id,
+              ...(c.payload.doc.data() as {}),
+            };
+          })
+        )
+      )
+      .subscribe((customers) => {
+        console.log(customers);
+        this.customers = customers;
+        this.dataSource = new MatTableDataSource(this.customers);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -58,33 +70,31 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  clickOnListItem(row){
-      this.selectedRow=row   
-      this.selectedRowId=row.customerId     
-      this.toggle=true;
+  clickOnListItem(row) {
+    this.selectedRow = row;
+    this.selectedRowId = row.customerId;
+    this.toggle = true;
     // setTimeout(() => {
     //   this.toggle=false
     // }, 4000);
   }
 
-  clickOnDeleteButton(){
-    
-    console.log(this.selectedRowId)
+  clickOnDeleteButton(id: string) {
+    this.firebaseService.deleteCustomer("Customer", id);
+    console.log(this.selectedRowId);
   }
 
-  //open dialog
-  openDialog(){
-    let dialogRef=  this.dialog.open(DialogExComponent,{data:this.selectedRow})
+  // dialog kutusu açar
+  openDialog() {    
+    let dialogRef = this.dialog.open(DialogExComponent, {
+      data: this.selectedRow,
+    });
 
-    
-    dialogRef.afterClosed().subscribe(result=>{
-      if(result===true){
-        
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === "true") {
+        // dialog kutusundan gelen cevap true ise silme methodunu çalıştırır.
+        this.clickOnDeleteButton(this.selectedRow.id);
       }
-      console.log(`dilog result is ${result}`)
-    })
-  
+    });
   }
-
 }
-

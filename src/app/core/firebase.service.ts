@@ -24,9 +24,8 @@ export class FirebaseService {
 
   getDocuments(collection:string,filter?:any){
     //firebase den verileri sıralı olarak alma
-    this.customerCollection=this.afs.collection<Customer>(collection,ref=>ref.orderBy("customerId","asc"));
-    this.customers=this.customerCollection.valueChanges();
-    return this.customers
+    this.customerCollection=this.afs.collection<Customer>(collection,ref=>ref.orderBy("customerId","asc"));   
+    return this.customerCollection.snapshotChanges();
   }
 
   addCustomer(customer){
@@ -34,5 +33,9 @@ export class FirebaseService {
     console.log('customer added')
   }
   
+  deleteCustomer(collection,id:string){
+    this.afs.doc(collection+'/'+id).delete();
+    console.log('customer deleted')
+  }
 
 }
