@@ -1,0 +1,61 @@
+<div class="container">
+  <form #addDebtForm="ngForm" action="">
+    <mat-form-field>
+      <input
+        matInput
+        #debtPrice="ngModel"
+        ngModel
+        name="debtPrice"
+        type="number"
+        placeholder="Veresiye Miktarı"
+        required
+      />
+      <span matSuffix>&nbsp;.00 TL</span>
+      <mat-hint>Örn : 13.50</mat-hint>
+      <mat-error *ngIf="debtPrice.invalid">Miktar giriniz.</mat-error>
+    </mat-form-field>
+    <br /><br />
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Alınan Ürünler"
+        #products="ngModel"
+        ngModel
+        name="products"
+        type="text"
+        class="example-right-align"
+      />
+      <mat-hint>Örn: Sigara,Ekmek</mat-hint>
+    </mat-form-field>
+    <br /><br />
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="Tarih"
+        #debtDate="ngModel"
+        ngModel
+        name="debtDate"
+        [(ngModel)]="date.value"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-hint>Ay/Gün/Yıl</mat-hint>
+    </mat-form-field>
+    <br />
+    <mat-card-actions>
+      <button
+        [mat-dialog-close]="addDebtForm"
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="addDebtForm.invalid"
+      >
+        Ekle
+      </button>
+      <button [mat-dialog-close]="false" class="ml-1" mat-raised-button>
+        İptal
+      </button>
+    </mat-card-actions>
+  </form>
+</div>

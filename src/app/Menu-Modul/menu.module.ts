@@ -10,12 +10,13 @@ import { AddCustomerComponent } from './Customers/add-customer/add-customer.comp
 import { MatDialogModule } from '@angular/material';
 import { DialogExComponent } from './Customers/dialog-ex/dialog-ex.component';
 import { CustomerDetailsComponent } from './Customers/customer-details/customer-details.component';
+import { DialogAddDebtComponent } from './Customers/dialog-add-debt/dialog-add-debt.component';
 
 SharedModule
 
 @NgModule({
   declarations: [
-    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent
+    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent, DialogAddDebtComponent
   ],
   imports: [
     CommonModule,MenuRoutingModule,CoreModule,SharedModule,MatDialogModule
@@ -23,6 +24,6 @@ SharedModule
   exports:[
     MatDialogModule
   ],
-  entryComponents:[DialogExComponent]
+  entryComponents:[DialogExComponent,DialogAddDebtComponent]
 })
 export class MenuModule { }

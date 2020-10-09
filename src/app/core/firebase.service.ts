@@ -39,9 +39,23 @@ export class FirebaseService {
     console.log('customer deleted')
   }
 
-  getAllDebt(id:String){
+  getAllDebt(id:string){
     this.debtCollection=this.afs.collection('Customer/'+id+'/Debt');
     return this.debtCollection.snapshotChanges();
   }
 
+  addDebt(debt,id:string){
+    this.afs.collection('Customer/'+id+'/Debt').add(debt)
+    console.log('debt aded !')
+  }
+  
+  addToPaid(customerId:string,debt){
+    this.afs.collection('Customer/'+customerId+'/Paid').add(debt);
+    console.log('add to paid')
+  }
+
+  deleteDebt(customerId:string,debt){
+    this.afs.collection('Customer/'+customerId+'/Debt').doc(debt.id).delete();
+    console.log('debt deleted')
+  }
 }
