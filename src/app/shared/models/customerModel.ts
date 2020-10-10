@@ -19,6 +19,11 @@ export interface Paid {
   paymentPrice: number;
 }
 
+export interface Table {
+    value: string;
+    viewValue: string;
+  }
+
 // payment:[
 //     {
 //         paymentId:number,

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { FirebaseService } from 'src/app/core/firebase.service';
 import {map} from 'rxjs/operators'
-import { Customer, Debt } from 'src/app/shared/models/customerModel';
+import { Customer, Debt, Table } from 'src/app/shared/models/customerModel';
 import { ActivatedRoute, Routes } from '@angular/router';
 import { DialogAddDebtComponent } from '../dialog-add-debt/dialog-add-debt.component';
  
@@ -15,10 +15,16 @@ import { DialogAddDebtComponent } from '../dialog-add-debt/dialog-add-debt.compo
 })
 export class CustomerDetailsComponent implements OnInit {
   displayedColumns: string[] = ["harcama", "alınanlar", "tarih", "işlemler"];
+  tables: Table[] = [
+    {value: 'borçlar-0', viewValue: 'Borçlar'},
+    {value: 'ödemeler-1', viewValue: 'Ödemeler'},
+   
+  ];
   dataSource: MatTableDataSource<any>;
   customerDebt:any[];
   customer:any;
   id:string;
+  option:string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(
@@ -49,7 +55,7 @@ export class CustomerDetailsComponent implements OnInit {
         map((changes) =>
           changes.map((c) => {
             return {
-              id: c.payload.doc.id,
+              debtId: c.payload.doc.id,
               ...(c.payload.doc.data() as {}),
             };
           })
@@ -102,6 +108,11 @@ export class CustomerDetailsComponent implements OnInit {
     const returnedTarget=Object.assign(paid,debt)  
     this.firebaseService.addToPaid(this.id,returnedTarget)
     this.firebaseService.deleteDebt(this.id,debt)
+  }
+
+  selectClick(value){
+    this.option=value
+    console.log(value)
   }
 }
 

@@ -58,4 +58,8 @@ export class FirebaseService {
     this.afs.collection('Customer/'+customerId+'/Debt').doc(debt.id).delete();
     console.log('debt deleted')
   }
+
+  getAllPaid(id:string){
+    return this.afs.collection('Customer/'+id+'/Paid').snapshotChanges();
+  }
 }
