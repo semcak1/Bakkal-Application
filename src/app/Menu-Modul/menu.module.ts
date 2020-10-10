@@ -1,4 +1,7 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import {registerLocaleData} from '@angular/common';
+import localeTr from '@angular/common/locales/tr';
+registerLocaleData(localeTr);
 import { CommonModule } from '@angular/common';
 import { CustomersComponent } from './Customers/customers.component';
 import { MenuComponent } from './menu.component';
@@ -25,6 +28,9 @@ SharedModule
   exports:[
     MatDialogModule
   ],
-  entryComponents:[DialogExComponent,DialogAddDebtComponent]
+  entryComponents:[DialogExComponent,DialogAddDebtComponent],
+  providers:[
+    {provide:LOCALE_ID,useValue:"tr"}
+  ]
 })
 export class MenuModule { }

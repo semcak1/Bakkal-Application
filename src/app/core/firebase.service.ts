@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { Customer } from '../shared/models/customerModel';
+import { Customer, Paid } from '../shared/models/customerModel';
 import { map } from 'rxjs/operators';
 
 
@@ -55,11 +55,11 @@ export class FirebaseService {
   }
 
   deleteDebt(customerId:string,debt){
-    this.afs.collection('Customer/'+customerId+'/Debt').doc(debt.id).delete();
+    this.afs.collection('Customer/'+customerId+'/Debt').doc(debt.debtId).delete();
     console.log('debt deleted')
   }
 
   getAllPaid(id:string){
-    return this.afs.collection('Customer/'+id+'/Paid').snapshotChanges();
+    return this.afs.collection<Paid>('Customer/'+id+'/Paid').snapshotChanges();
   }
 }

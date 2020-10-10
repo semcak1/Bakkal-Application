@@ -9,14 +9,16 @@ export interface Customer {
 
 export interface Debt {
   debtPrice: number;
-  debtDate: string;
+  debtDate: Date;
   products: string;
 }
 
 export interface Paid {
-  paymentId: number;
+  paymentId: string;
   paymentDate: Date;
-  paymentPrice: number;
+  debtPrice: number;
+  debtDate: Date;
+  products: string;
 }
 
 export interface Table {
