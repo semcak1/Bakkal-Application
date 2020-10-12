@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { Router, Routes } from '@angular/router';
 import { CustomersComponent } from '../Menu-Modul/Customers/customers.component';
 import { FirebaseService } from './firebase.service';
+import { CoreRoutingModule } from './core-routing.module';
 
 
 
@@ -14,7 +15,7 @@ import { FirebaseService } from './firebase.service';
   imports: [
     CommonModule,
     SharedModule,
-    
+    CoreRoutingModule
   ],
   exports:[
     CommonModule,HeaderComponent

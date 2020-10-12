@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { CustomersComponent } from './Customers/customers.component';
 import { AddCustomerComponent } from './Customers/add-customer/add-customer.component';
 import { CustomerDetailsComponent } from './Customers/customer-details/customer-details.component';
+import { IncomeExpensesComponent } from '../Income-Expenses/income-expenses.component';
 
 
 const routes: Routes = [
   {path:'customers',component:CustomersComponent},
   {path:'customerAdd',component:AddCustomerComponent},
-  {path:'customerDetails/:id',component:CustomerDetailsComponent}
+  {path:'customerDetails/:id',component:CustomerDetailsComponent},
+  {path:'income-expenses',component:IncomeExpensesComponent}
 ];
 
 @NgModule({

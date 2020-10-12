@@ -15,12 +15,14 @@ import { DialogExComponent } from './Customers/dialog-ex/dialog-ex.component';
 import { CustomerDetailsComponent } from './Customers/customer-details/customer-details.component';
 import { DialogAddDebtComponent } from './Customers/dialog-add-debt/dialog-add-debt.component';
 import { PaidTableComponent } from './Customers/paid-table/paid-table.component';
+import { IncomeExpensesComponent } from '../Income-Expenses/income-expenses.component';
+import { IncomeExpnesesFormComponent } from '../Income-Expenses/income-expneses-form/income-expneses-form.component';
 
 SharedModule
 
 @NgModule({
   declarations: [
-    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent, DialogAddDebtComponent, PaidTableComponent
+    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent, DialogAddDebtComponent, PaidTableComponent,IncomeExpensesComponent,IncomeExpnesesFormComponent
   ],
   imports: [
     CommonModule,MenuRoutingModule,CoreModule,SharedModule,MatDialogModule

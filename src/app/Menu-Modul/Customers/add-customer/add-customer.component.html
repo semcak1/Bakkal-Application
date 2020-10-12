@@ -5,7 +5,7 @@
   <mat-form-field appearance="legacy">    
     <input  #name="ngModel" name="name" ngModel matInput required minlength="2" placeholder="Ad">    
     <mat-hint>Örn: Fikret</mat-hint>
-    <mat-error *ngIf="name.invalid && !name.untouched">
+    <mat-error *ngIf="name.invalid && !customerForm.untouched">
       <p *ngIf="name.errors.required">Zorunlu !</p>
       <p *ngIf="name.errors.minlength">İsim en az 2 karakter olmalı !</p>      
     </mat-error>  

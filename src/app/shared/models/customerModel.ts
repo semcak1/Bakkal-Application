@@ -22,9 +22,15 @@ export interface Paid {
 }
 
 export interface Table {
-    value: string;
-    viewValue: string;
-  }
+  value: string;
+  viewValue: string;
+}
+
+export interface Income {
+  name: string;
+  incomeType: boolean;
+  subSections?: string[];
+}
 
 // payment:[
 //     {

@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <form #incomeForm="ngForm" (ngSubmit)="onFormSubmit(incomeForm)" action="">
+        <mat-form-field>
+          <input required name="income" [(ngModel)]="income"  type="number" matInput #miktar="ngModel" placeholder="Miktar" />
+          <mat-error *ngIf="miktar.invalid">Lütfen  Miktar Yazınız.</mat-error>
+        </mat-form-field>
+        <br />
+
+        <mat-form-field>
+          <mat-select
+            required
+            name="name"
+            [(ngModel)]="incomeName"
+            placeholder="Gelir / Gider Kalemi"
+            #name="ngModel"
+          >
+            <mat-option *ngFor="let item of incomeList" [value]="item.name">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="name.invalid">Lütfen Seçim Yapınız.</mat-error>
+        </mat-form-field>
+        <br />
+        <mat-form-field
+          *ngFor="let item of incomeList"
+          [hidden]="item.name !== incomeName || (item.subSections.length==0)"
+        > <!-- hidden property si içindeki name değişkeni bir üst select bölümünden geliyor.-->
+          <mat-select name="subSection"
+          [(ngModel)]="subSection" placeholder="Alt Kalem" #subSec="ngModel" required>
+            <mat-option
+              *ngFor="let subSection of item.subSections"
+              [value]="subSection"
+              >{{ subSection }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="subSec.invalid">Lütfen Seçim Yapınız.</mat-error>
+        </mat-form-field>
+        
+        <br>
+        <mat-form-field
+        *ngFor="let item of incomeList"
+        [hidden]="item.name!== incomeName"
+      > <!-- hidden property si içindeki name değişkeni bir üst select bölümünden geliyor.-->
+        <mat-select name="incomeType" 
+        [(ngModel)]="item.ncomeType" placeholder="Gider Tipi"  #type="ngModel" required>
+          <mat-option       
+            [value]="item.incomeType"
+            >{{ item.incomeType===true? 'Gelir': 'Gider' }}</mat-option
+          >
+        </mat-select>
+        <mat-error *ngIf="type.invalid">Lütfen Seçim Yapınız.</mat-error>
+      </mat-form-field>
+      <br>
+        <div class="buttons">
+          <button [disabled]="incomeForm.invalid" type="submit" class="mr-2" mat-raised-button color="primary">Kaydet</button>
+        <button mat-raised-button>İptal</button>
+        </div>
+        
+       
+      </form>
+    </div>
+  </div>
+</div>
