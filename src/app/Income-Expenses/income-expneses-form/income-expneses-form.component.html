@@ -1,3 +1,4 @@
+<header></header>
 <div class="container">
   <div class="row">
     <div class="col-6">
@@ -55,11 +56,13 @@
       <br>
         <div class="buttons">
           <button [disabled]="incomeForm.invalid" type="submit" class="mr-2" mat-raised-button color="primary">Kaydet</button>
-        <button mat-raised-button>İptal</button>
+        <button [routerLink]="[ '/income-expenses' ]" mat-raised-button>İptal</button>
         </div>
         
        
       </form>
     </div>
   </div>
+
+ 
 </div>

@@ -17,12 +17,15 @@ import { DialogAddDebtComponent } from './Customers/dialog-add-debt/dialog-add-d
 import { PaidTableComponent } from './Customers/paid-table/paid-table.component';
 import { IncomeExpensesComponent } from '../Income-Expenses/income-expenses.component';
 import { IncomeExpnesesFormComponent } from '../Income-Expenses/income-expneses-form/income-expneses-form.component';
+import { ShowsIncomeComponent } from '../Income-Expenses/shows-income/shows-income.component';
+import { CategoriAddFormComponent } from '../Income-Expenses/categori-add-form/categori-add-form.component';
+import { CategoryDetailsComponent } from '../Income-Expenses/category-details/category-details.component';
 
 SharedModule
 
 @NgModule({
   declarations: [
-    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent, DialogAddDebtComponent, PaidTableComponent,IncomeExpensesComponent,IncomeExpnesesFormComponent
+    MenuComponent,CustomersComponent, AddCustomerComponent,  DialogExComponent, CustomerDetailsComponent, DialogAddDebtComponent, PaidTableComponent,IncomeExpensesComponent,IncomeExpnesesFormComponent,ShowsIncomeComponent,CategoriAddFormComponent,CategoryDetailsComponent
   ],
   imports: [
     CommonModule,MenuRoutingModule,CoreModule,SharedModule,MatDialogModule
@@ -30,7 +33,7 @@ SharedModule
   exports:[
     MatDialogModule
   ],
-  entryComponents:[DialogExComponent,DialogAddDebtComponent],
+  entryComponents:[DialogExComponent,DialogAddDebtComponent,CategoriAddFormComponent],
   providers:[
     {provide:LOCALE_ID,useValue:"tr"}
   ]

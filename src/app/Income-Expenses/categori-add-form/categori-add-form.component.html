@@ -1,0 +1,64 @@
+<div  *ngIf="data.name=='addCategory'">
+  <h2>Kategori Ekle</h2>
+<form  #categoryAddForm="ngForm" action="">
+  <mat-form-field>
+    <input matInput name="category" placeholder="Kategori Adı" [value]="category" [(ngModel)]="category">
+  </mat-form-field>
+  <mat-select placeholder="Gider / Gelir" [(ngModel)]="selectedValue" name="incomeType">
+    <mat-option  [value]="true">
+     Gelir
+    </mat-option>
+    <mat-option  [value]="false">
+     Gider
+     </mat-option>
+  </mat-select>
+  <section *ngFor="let subCategory of subCategories;let i=index">
+     <mat-form-field class="mt-2">
+    <input matInput name="{{i}}" placeholder="Alt Kategori Adı" [value]="" [(ngModel)]="subCategory.name">
+   
+    <p>{{sub}}</p>
+  </mat-form-field>
+  
+  </section>
+  <button mat-button mat-raised-button color="primary" aria-label="Clear" (click)="addInput()">
+   + Alt Kategori Ekle
+  </button>
+ 
+  <div class="buttons my-5">
+    <button mat-raised-button color="primary" [mat-dialog-close]="categoryAddForm">Kaydet</button>
+    <button mat-raised-button [mat-dialog-close]="false">İptal</button>
+    
+  </div>
+  
+  
+</form>
+</div>
+<div *ngIf="data.name=='delete'">
+  <h2>Kategori Sil</h2>
+<p><b>{{data.selectedRow.category}}</b>  adlı kategoriyi silmek istediğinizden emin misiniz? </p>
+<div class="my-3">
+  <button mat-raised-button mat-dialog-close="true" color="warn">Sil</button>
+<button mat-raised-button mat-dialog-close="false" class="ml-2"> İptal</button>
+</div>
+
+</div>
+<div *ngIf="data.name=='incomeDetailForm'">
+  <h3>Gelir / Gider Ekle</h3>
+  <form #incomeForm="ngForm"  action="">
+    <mat-form-field class="mt-4">
+      <input name="income" [(ngModel)]="income" matInput [value]="income" type="number" placeholder="Miktar" >
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker3" placeholder="Tarih" [(ngModel)]="date" name="date" [value]="date">
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field>
+    <div class="my-4">
+      <button type="submit"  class="mr-2" mat-raised-button color="primary"
+      [mat-dialog-close]="incomeForm">Kaydet</button>
+    <button [mat-dialog-close]="false" mat-raised-button>İptal</button>
+    </div>
+    
+  </form>
+</div>
+

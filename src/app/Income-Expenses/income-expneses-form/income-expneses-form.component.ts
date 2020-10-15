@@ -16,29 +16,29 @@ export class IncomeExpnesesFormComponent implements OnInit {
 
   incomeList:Income[]=[
     {
-      name:"Ciro",
-      subSections:[],
+      category:"Ciro",
+      subCategory:[],
       incomeType:true
     },
     {
-      name:"Sigara",
-      subSections:["Philip Morris","Japan Tobacco","British Tobacco","Europan Tobacco","Polo-West"],
+      category:"Sigara",
+      subCategory:["Philip Morris","Japan Tobacco","British Tobacco","Europan Tobacco","Polo-West"],
       incomeType:false
     },
     {
-      name:"Toptancı",
-      subSections:["Zırhlıoğlu","Özbereket","Mega-Center","Rami","Süleyman","Bolulu","Turşucu","Yumurta-Sedat","Yumurta-Furkan","Hırdavatçı"],
+      category:"Toptancı",
+      subCategory:["Zırhlıoğlu","Özbereket","Mega-Center","Rami","Süleyman","Bolulu","Turşucu","Yumurta-Sedat","Yumurta-Furkan","Hırdavatçı"],
       incomeType:false
     },
     {
-      name:"İçecekler",
-      subSections:["Pepsi","Coca-Cola","Anadolu-Gıda"],
+      category:"İçecekler",
+      subCategory:["Pepsi","Coca-Cola","Anadolu-Gıda"],
       incomeType:false
     }
   ]
   onFormSubmit(form:NgForm){
     console.log(form.value)
-    
+        
     form.resetForm();
   }
 }

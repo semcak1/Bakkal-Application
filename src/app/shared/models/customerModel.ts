@@ -27,9 +27,9 @@ export interface Table {
 }
 
 export interface Income {
-  name: string;
+  category: string;
   incomeType: boolean;
-  subSections?: string[];
+  subCategory?: string[];
 }
 
 // payment:[

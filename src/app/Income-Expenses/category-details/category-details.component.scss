@@ -1,0 +1,32 @@
+table {
+    width: 100%;    
+  }
+  
+.mat-form-field {
+    font-size: 14px;
+    width: 50%;
+
+  }
+.tablo{
+    width:350px;
+}
+
+.delete{
+    transform: scale(0);
+    opacity: 0;
+    transition: transform .3s ease-in-out,
+    opacity .3s ease-in-out
+    ;
+}
+
+tr{
+  transition: background-color .3s ease-out;
+}
+tr:hover{
+    background-color: lighten($color: #673AB7, $amount: 45);
+
+    .delete{
+      transform: scale(1);
+      opacity: 1;
+  }
+}
