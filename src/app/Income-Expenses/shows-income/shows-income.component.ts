@@ -35,6 +35,7 @@ export class ShowsIncomeComponent implements OnInit {
   customers: any[];
   selectedRow: any;
   obj:Income;
+  
 
   constructor(
     private firebaseService:FirebaseService,
@@ -90,10 +91,15 @@ export class ShowsIncomeComponent implements OnInit {
     // }, 4000);
   }
 
-  clickOnDeleteButton(id: string) {
-    this.firebaseService.deleteCustomer("Customer", id);
+  deleteCategory(id: string) {
+    this.firebaseService.deleteCategory(id);
     console.log(this.selectedRowId);
   }
+
+  // clickOnUpdateButton(value){
+  //   this.firebaseService.updateCategory(value.id,value)
+  //   console.log(value)
+  // }
 
   addCategory(data){
     this.firebaseService.addCategory(data)
@@ -120,7 +126,7 @@ export class ShowsIncomeComponent implements OnInit {
         }
        
         console.log(result.value)
-        this.findSubCategory(result.value)
+        this.findSubCategory(result.value,this.obj)
 
         console.log(this.obj)
         this.addCategory(this.obj)
@@ -143,16 +149,51 @@ export class ShowsIncomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result=>{
       console.log(result)
       if(result==="true"){
-        this.firebaseService.deleteCategory(this.selectedRowId)
+
+        this.deleteCategory(this.selectedRowId);
+       
       }
     })
   }
+
+  updateCategory(id,data){
+    this.firebaseService.updateCategory(id,data)
+  }
+
+  openUpdateDialog(value){
+    const dialogConfig=new MatDialogConfig();
+    dialogConfig.height='75%';
+    dialogConfig.data={
+      name:'update',
+      category:value.category,
+      incomeType:value.incomeType,
+      subCategory:value.subCategory
+    }
+    const dialogRef=this.dialog.open(CategoriAddFormComponent,dialogConfig)   
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result){
+        console.log(result.value)
+      this.obj={
+        category:result.value.category,
+        incomeType:result.value.incomeType,
+        subCategory:[]
+      }
+      this.findSubCategory(result.value,this.obj)
+      console.log(this.obj)
+      console.log(value.id)
+        this.updateCategory(this.selectedRowId,this.obj)
+           console.log(this.obj)
+      }
+      
+    })
+  }
  
-  findSubCategory(object){
+  findSubCategory(object,firebaseObj){
     for (let num in object){
       let numb=Number(num)      
         if(isNumber(numb) && object[numb]!==undefined){         
-          this.obj.subCategory.push(object[numb])
+          firebaseObj.subCategory.push(object[numb])
         }
     }
   }

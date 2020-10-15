@@ -65,7 +65,7 @@
           <mat-icon class="anim">delete</mat-icon>
         </button>
         <button
-          (click)="clickOnDeleteButton(row)"
+          (click)="openUpdateDialog(row)"
           *ngIf="row.incomeId == selectedRowId && toggle"
           mat-icon-button
         >

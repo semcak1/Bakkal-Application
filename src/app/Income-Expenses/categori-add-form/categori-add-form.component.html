@@ -14,14 +14,15 @@
   </mat-select>
   <section *ngFor="let subCategory of subCategories;let i=index">
      <mat-form-field class="mt-2">
-    <input matInput name="{{i}}" placeholder="Alt Kategori Adı" [value]="" [(ngModel)]="subCategory.name">
-   
-    <p>{{sub}}</p>
+    <input matInput name="{{i}}" placeholder="Alt Kategori Adı" [value]="" [(ngModel)]="subCategory.name">   
   </mat-form-field>
   
   </section>
   <button mat-button mat-raised-button color="primary" aria-label="Clear" (click)="addInput()">
    + Alt Kategori Ekle
+  </button>
+    <button mat-button mat-raised-button color="accent" aria-label="Clear" (click)="deleteInput()">
+   - Alt Kategori Sil
   </button>
  
   <div class="buttons my-5">
@@ -60,5 +61,41 @@
     </div>
     
   </form>
+</div>
+<div  *ngIf="data.name=='update'">
+  <h2>Kategori Güncelle</h2>
+<form  #categoryUpdateForm="ngForm" action="">
+  <mat-form-field>
+    <input matInput name="category" placeholder="Kategori Adı" [value]="category" [(ngModel)]="data.category">
+  </mat-form-field>
+  <mat-select placeholder="Gider / Gelir" [(ngModel)]="data.incomeType" name="incomeType">
+    <mat-option  [value]="true">
+     Gelir
+    </mat-option>
+    <mat-option  [value]="false">
+     Gider
+     </mat-option>
+  </mat-select>
+  <section *ngFor="let subCategory of subCategories;let i=index">
+     <mat-form-field class="mt-2">
+    <input matInput name="{{i}}" placeholder="Alt Kategori Adı" [value]="" [(ngModel)]="subCategory.name">   
+  </mat-form-field>
+  
+  </section>
+  <button mat-button mat-raised-button color="primary" aria-label="Clear" (click)="addInput()">
+   + Alt Kategori Ekle
+  </button>
+    <button mat-button mat-raised-button color="warn" aria-label="Clear" (click)="deleteInput()">
+   - Alt Kategori Sil
+  </button>
+ 
+  <div class="buttons my-5">
+    <button mat-raised-button color="primary" [mat-dialog-close]="categoryUpdateForm">Güncelle</button>
+    <button mat-raised-button [mat-dialog-close]="false">İptal</button>
+    
+  </div>
+  
+  
+</form>
 </div>
 

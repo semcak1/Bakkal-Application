@@ -92,6 +92,10 @@ export class FirebaseService {
       this.afs.collection('Income').doc(id).delete()
     }
 
+    updateCategory(id:string,data){
+      this.afs.collection('Income').doc(id).update(data)
+    }
+
     //Sub Category Actions
 
     getSubCategory(id:string){

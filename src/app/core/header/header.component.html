@@ -1,17 +1,17 @@
 <mat-toolbar color="primary">
 <mat-toolbar-row> 
-  <button color="accent" mat-mini-fab [matMenuTriggerFor]="menu">
+  <button *ngIf="isMenuVisible" color="accent" mat-mini-fab [matMenuTriggerFor]="menu">
     <mat-icon color="primary">widgets</mat-icon>
   </button>  
   <span class="example-icon"></span>
-  <span>menuTitle</span>
+  <span>{{menuTitle}}</span>
   <span class="example-spacer"></span>
   
-  <mat-icon class="example-icon mr-1" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
-  <mat-icon class="example-icon mr-5" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+  <button (click)="login()" *ngIf="isLoginVisible" class="mx-3" mat-raised-button color ="accent"><mat-icon>login</mat-icon> Giriş</button>
+  <button (click)="register()" *ngIf="isRegisterVisible" [routerLink]="[ '/login' ]" class="mx-3" mat-raised-button color ="accent"><mat-icon>person_add</mat-icon> Kayıt Ol</button>
   <h2>Bakkal-App</h2>
   <!--menu-->
-  <mat-menu #menu="matMenu">
+  <mat-menu  #menu="matMenu">
     <button routerLink="/customers" mat-menu-item>
       <mat-icon>supervised_user_circle</mat-icon>
       <span>Müşteriler</span>

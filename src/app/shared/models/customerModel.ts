@@ -32,6 +32,24 @@ export interface Income {
   subCategory?: string[];
 }
 
+export interface componentProp{
+    componentName:string,
+    menuTitle:string,
+    isLoginVisible:boolean,
+    isRegisterVisible:boolean,
+    isMenuVisible:boolean
+}
+
+export class PersonelData{
+    email:string=''
+    password:string=''
+}
+export class ContactRequest{
+    personelData:PersonelData
+    requestType:any=''
+    tet:string=''
+}
+
 // payment:[
 //     {
 //         paymentId:number,

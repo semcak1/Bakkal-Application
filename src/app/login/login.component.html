@@ -1,0 +1,114 @@
+<header [menuTitle]="componentProp.menuTitle"[isLoginVisible]="componentProp.isLoginVisible"
+[isMenuVisible]="componentProp.isMenuVisible"
+[isRegisterVisible]="componentProp.isRegisterVisible"
+(type)="checkName($event)"
+></header>
+
+<div *ngIf="type=='register'"  class="container register mt-3 " >
+  <mat-card class="col-3 mx-auto">
+    <mat-card-header>
+      <mat-card-title>KAYIT OL</mat-card-title>
+      <mat-card-subtitle>subtitle</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="register()" action="">
+        <div >
+          <mat-form-field>
+            <input
+              formControlName="email"
+              matInput
+              placeholder="E-mail"
+              type="email"
+              required
+              name="email"
+            />
+            <mat-error
+              *ngIf="isValidInput('email')"
+              >Email gerekli</mat-error
+            >
+            <mat-error *ngIf="loginForm.controls.email.errors?.email"
+              >Email formatına uygun değil !!!</mat-error
+            >
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <input
+              formControlName="password"
+              matInput
+              placeholder="Parola"
+              type="password"
+              required
+              name="password"
+            />
+            <mat-error *ngIf="isValidInput('password')">
+              Parola gerekli.
+            </mat-error>
+            <mat-error *ngIf="loginForm.controls.password.errors?.password">Parola minimum 4 karakter olmalı</mat-error>
+          </mat-form-field>
+        </div>
+
+        <br />
+        <mat-card-actions>
+          <button [disabled]="loginForm.invalid" mat-raised-button color="primary" type="submit">
+            Kayıt Ol
+          </button>
+          <button [hidden]="true" mat-raised-button>İptal</button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div  *ngIf="type=='login'" class="container login mt-3">
+  <mat-card class="col-3 mx-auto">
+    <mat-card-header>
+      <mat-card-title>GİRİŞ YAP</mat-card-title>
+      <mat-card-subtitle>subtitle</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="login()" action="">
+        <div >
+          <mat-form-field>
+            <input
+              formControlName="email"
+              matInput
+              placeholder="E-mail"
+              type="email"
+              required
+              name="email"
+            />
+            <mat-error
+              *ngIf="isValidInput('email')"
+              >Email gerekli</mat-error
+            >
+            <mat-error *ngIf="loginForm.controls.email.errors?.email"
+              >Email formatına uygun değil !!!</mat-error
+            >
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <input
+              formControlName="password"
+              matInput
+              placeholder="Parola"
+              type="password"
+              required
+              name="password"
+            />
+            <mat-error *ngIf="isValidInput('password')">
+              Parola gerekli.
+            </mat-error>
+            <mat-error *ngIf="loginForm.controls.password.errors?.password">Parola minimum 4 karakter olmalı</mat-error>
+          </mat-form-field>
+        </div>
+
+        <br />
+        <mat-card-actions>
+          <button [disabled]="loginForm.invalid" mat-raised-button color="primary" type="submit">
+            Giriş Yap
+          </button>
+          <button (click)="onRegsiterButton()" color="accent" mat-raised-button>Kayıt Ol</button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

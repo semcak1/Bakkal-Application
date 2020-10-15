@@ -95,8 +95,9 @@
 
                 <!-- Progress Column -->
                 <ng-container matColumnDef="gider">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Harcama
+                  <th mat-header-cell                  
+                  *matHeaderCellDef mat-sort-header>
+                    {{category=='Ciro'? 'Ciro' : 'Harcama'}}
                   </th>
                   <td mat-cell *matCellDef="let row">{{row.income}} TL</td>
                 </ng-container>

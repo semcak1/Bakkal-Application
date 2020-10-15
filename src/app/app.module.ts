@@ -11,12 +11,13 @@ import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { MatDialogModule } from '@angular/material';
+import { LoginComponent } from './login/login.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,LoginComponent
   ],
   imports: [
     BrowserModule,
