@@ -9,15 +9,16 @@ import { IncomeExpnesesFormComponent } from '../Income-Expenses/income-expneses-
 import { ShowsIncomeComponent } from '../Income-Expenses/shows-income/shows-income.component';
 import { componentFactoryName } from '@angular/compiler';
 import { CategoryDetailsComponent } from '../Income-Expenses/category-details/category-details.component';
+import { AuthguardGuard } from '../core/authguard.guard';
 
 
 const routes: Routes = [
-  {path:'customers',component:CustomersComponent},
-  {path:'customerAdd',component:AddCustomerComponent},
-  {path:'customerDetails/:id',component:CustomerDetailsComponent},
-  {path:'income-expenses',component:IncomeExpensesComponent},
-  {path:'income-form',component:IncomeExpnesesFormComponent},
-  {path:'categoryDetails/:id',component:CategoryDetailsComponent}
+  {path:'customers',component:CustomersComponent,canActivate:[AuthguardGuard]},
+  {path:'customerAdd',component:AddCustomerComponent,canActivate:[AuthguardGuard]},
+  {path:'customerDetails/:id',component:CustomerDetailsComponent,canActivate:[AuthguardGuard]},
+  {path:'income-expenses',component:IncomeExpensesComponent,canActivate:[AuthguardGuard]},
+  {path:'income-form',component:IncomeExpnesesFormComponent,canActivate:[AuthguardGuard]},
+  {path:'categoryDetails/:id',component:CategoryDetailsComponent,canActivate:[AuthguardGuard]}
   
 ];
 

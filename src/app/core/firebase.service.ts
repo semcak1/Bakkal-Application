@@ -41,6 +41,10 @@ export class FirebaseService {
     console.log('customer deleted')
   }
 
+  updateCustomer(id:string,data:Customer){
+    this.afs.collection('Customer').doc(id).update(data)
+  }
+
   getAllDebt(id:string){
     this.debtCollection=this.afs.collection('Customer/'+id+'/Debt');
     return this.debtCollection.snapshotChanges();
@@ -59,6 +63,9 @@ export class FirebaseService {
   deleteDebt(customerId:string,debt){
     this.afs.collection('Customer/'+customerId+'/Debt').doc(debt.debtId).delete();
     console.log('debt deleted')
+  }
+  updateDebt(customerId:string,debtId:string,data){
+    this.afs.collection('Customer/'+customerId+'/Debt').doc(debtId).update(data)
   }
 
   getAllPaid(id:string){

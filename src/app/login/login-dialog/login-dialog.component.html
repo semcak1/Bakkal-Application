@@ -1,0 +1,13 @@
+<div *ngIf="data.name==='success'" class="">
+  <mat-icon class="mx-3" style="color:rgb(90, 187, 90)">check</mat-icon>
+  <span class=" config">
+    {{data.message}}
+  </span>
+</div>
+<div *ngIf="data.name==='error'" class="">
+  <mat-icon class="mx-3" style="color:rgb(170, 53, 53)">error_outline</mat-icon>
+  <span class=" error">
+    {{data.message}}
+  </span>
+</div>
+

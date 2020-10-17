@@ -1,7 +1,8 @@
 
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'dialog-add-debt',
@@ -11,7 +12,7 @@ import { FormControl, NgForm } from '@angular/forms';
 })
 export class DialogAddDebtComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
     // console.log(this.currentDate)

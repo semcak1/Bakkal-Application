@@ -1,4 +1,8 @@
-<header></header>
+<header
+[menuTitle]="loginState.menuTitle"
+[isLoggedIn]="loginState.isLoggedIn"
+[userEmail]="email"
+></header>
 <mat-tab-group>
   <mat-tab label="Gelir / Gider Ekle"><shows-income></shows-income></mat-tab>
   <mat-tab label="Second"> Content 2 </mat-tab>

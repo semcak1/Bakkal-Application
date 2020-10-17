@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FirebaseService } from "src/app/core/firebase.service";
 import { map } from "rxjs/operators";
-import { Income } from "src/app/shared/models/customerModel";
+import { componentProp, Income } from "src/app/shared/models/customerModel";
 import { ActivatedRoute } from "@angular/router";
 import {
   MatDialog,
@@ -11,6 +11,7 @@ import {
   MatTableDataSource,
 } from "@angular/material";
 import { CategoriAddFormComponent } from "../categori-add-form/categori-add-form.component";
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: "category-details",
@@ -29,11 +30,26 @@ export class CategoryDetailsComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  email: string;
+  loginState: componentProp;
   constructor(
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private afAuth:AngularFireAuth
+  ) {
+    this.afAuth.user.subscribe((res) => {
+      if (res) {
+        this.email = res.email;
+      }
+    });
+    if(this.afAuth.authState){
+      this.loginState = {
+        isLoggedIn: true,
+        menuTitle: "Gelir - Gider Detay",
+      };
+    }
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((query) => {

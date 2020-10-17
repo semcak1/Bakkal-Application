@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Income } from 'src/app/shared/models/customerModel';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { componentProp, Income } from 'src/app/shared/models/customerModel';
 
 @Component({
   selector: 'income-expneses-form',
@@ -8,8 +9,24 @@ import { Income } from 'src/app/shared/models/customerModel';
   styleUrls: ['./income-expneses-form.component.scss']
 })
 export class IncomeExpnesesFormComponent implements OnInit {
+  email: string;
+  loginState: componentProp;
 
-  constructor() { }
+  constructor(
+    private afAuth:AngularFireAuth
+  ) {
+    this.afAuth.user.subscribe((res) => {
+      if (res) {
+        this.email = res.email;
+      }
+    });
+    if(this.afAuth.authState){
+      this.loginState = {
+        isLoggedIn: true,
+        menuTitle: "Müşteri Detay",
+      };
+    }
+   }
 
   ngOnInit() {
   }

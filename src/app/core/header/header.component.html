@@ -1,14 +1,21 @@
 <mat-toolbar color="primary">
 <mat-toolbar-row> 
-  <button *ngIf="isMenuVisible" color="accent" mat-mini-fab [matMenuTriggerFor]="menu">
+  <button *ngIf="isLoggedIn" color="accent" mat-mini-fab [matMenuTriggerFor]="menu">
     <mat-icon color="primary">widgets</mat-icon>
-  </button>  
+  </button>
+  <button *ngIf="!isLoggedIn" mat-mini-fab><mat-icon>vpn_key</mat-icon></button>  
   <span class="example-icon"></span>
   <span>{{menuTitle}}</span>
   <span class="example-spacer"></span>
   
-  <button (click)="login()" *ngIf="isLoginVisible" class="mx-3" mat-raised-button color ="accent"><mat-icon>login</mat-icon> Giriş</button>
-  <button (click)="register()" *ngIf="isRegisterVisible" [routerLink]="[ '/login' ]" class="mx-3" mat-raised-button color ="accent"><mat-icon>person_add</mat-icon> Kayıt Ol</button>
+  <button (click)="login()" *ngIf="!isLoggedIn" class="mx-3" mat-raised-button color ="accent"><mat-icon>login</mat-icon> Giriş</button>
+  <button (click)="register()" *ngIf="!isLoggedIn" [routerLink]="[ '/login' ]" class="mx-3" mat-raised-button color ="accent"><mat-icon>person_add</mat-icon> Kayıt Ol</button>
+  
+  
+  <div *ngIf="isLoggedIn" class="mx-4">
+    <span>{{userEmail}} </span>
+    <button class="ml-3" (click)="signOut()" mat-raised-button color="accent">Çıkış</button>
+  </div>
   <h2>Bakkal-App</h2>
   <!--menu-->
   <mat-menu  #menu="matMenu">

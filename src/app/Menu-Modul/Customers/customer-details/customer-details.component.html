@@ -1,4 +1,8 @@
-<header></header>
+<header
+[menuTitle]="loginState.menuTitle"
+[isLoggedIn]="loginState.isLoggedIn"
+[userEmail]="email"
+></header>
 <div class="row mx-auto">
   <mat-card class="col-5 m-3">
     <mat-card-header>
@@ -135,6 +139,17 @@
                       <mat-icon
                         aria-label="Example icon-button with a heart icon"
                         >delete</mat-icon
+                      >
+                    </button>
+                    <button
+                      (click)="openUpdateDebtForm(row)"
+                      class="update"
+                      mat-icon-button
+                      
+                    >
+                      <mat-icon
+                        aria-label="Example icon-button with a heart icon"
+                        >cached</mat-icon
                       >
                     </button>
                   </td>

@@ -1,10 +1,11 @@
 export interface Customer {
-  customerId?: number;
-  name: string;
+  customerId?: string;
+  name: string;  
   surname: string;
+  limit:number;
   adres?: string;
   phone?: string;
-  totalDept: number;
+  totalDept?: number;
 }
 
 export interface Debt {
@@ -33,12 +34,11 @@ export interface Income {
 }
 
 export interface componentProp{
-    componentName:string,
+    componentName?:string,
     menuTitle:string,
-    isLoginVisible:boolean,
-    isRegisterVisible:boolean,
-    isMenuVisible:boolean
-}
+    userName?:string,
+    isLoggedIn:boolean
+}    
 
 export class PersonelData{
     email:string=''

@@ -7,6 +7,8 @@ import { Router, Routes } from '@angular/router';
 import { CustomersComponent } from '../Menu-Modul/Customers/customers.component';
 import { FirebaseService } from './firebase.service';
 import { CoreRoutingModule } from './core-routing.module';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 
@@ -20,7 +22,7 @@ import { CoreRoutingModule } from './core-routing.module';
   exports:[
     CommonModule,HeaderComponent
   ],
-  providers:[AuthService,FirebaseService]
+  providers:[AuthService,FirebaseService,AngularFireAuth]
 
 })
 export class CoreModule { }

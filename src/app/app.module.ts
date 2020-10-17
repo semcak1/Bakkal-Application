@@ -8,16 +8,20 @@ import { CoreModule } from './core/core.module';
 import { MenuModule } from './Menu-Modul/menu.module';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from 'src/environments/environment';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { MatDialogModule } from '@angular/material';
 import { LoginComponent } from './login/login.component';
+import { AuthService } from './core/auth.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { LoginDialogComponent } from './login/login-dialog/login-dialog.component';
+import { AuthguardGuard } from './core/authguard.guard';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,LoginComponent
+    AppComponent,LoginComponent,LoginDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -25,13 +29,14 @@ import { LoginComponent } from './login/login.component';
     SharedModule,
     CoreModule,
     MenuModule,
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     MatDialogModule
    
   ],
-  entryComponents:[],
-  providers: [],
+  entryComponents:[LoginDialogComponent],
+  providers: [AuthguardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

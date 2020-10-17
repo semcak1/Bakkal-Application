@@ -1,6 +1,6 @@
-<header [menuTitle]="componentProp.menuTitle"[isLoginVisible]="componentProp.isLoginVisible"
-[isMenuVisible]="componentProp.isMenuVisible"
-[isRegisterVisible]="componentProp.isRegisterVisible"
+<header [menuTitle]="componentProp.menuTitle"
+[userEmail]=""
+[isLoggedIn]="componentProp.isLoggedIn"
 (type)="checkName($event)"
 ></header>
 
@@ -20,8 +20,8 @@
               placeholder="E-mail"
               type="email"
               required
-              name="email"
-            />
+              name="email"              
+            />            
             <mat-error
               *ngIf="isValidInput('email')"
               >Email gerekli</mat-error
@@ -39,7 +39,9 @@
               type="password"
               required
               name="password"
+              [type]="hide ? 'password' : 'text'"
             />
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="isValidInput('password')">
               Parola gerekli.
             </mat-error>
@@ -65,7 +67,7 @@
       <mat-card-subtitle>subtitle</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="login()" action="">
+      <form [formGroup]="loginForm" (ngSubmit)="loginWithEmail()" action="">
         <div >
           <mat-form-field>
             <input
@@ -90,10 +92,12 @@
               formControlName="password"
               matInput
               placeholder="Parola"
-              type="password"
+              
               required
               name="password"
+              [type]="hide ? 'password' : 'text'"
             />
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="isValidInput('password')">
               Parola gerekli.
             </mat-error>

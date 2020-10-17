@@ -1,0 +1,19 @@
+div{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    text-align: center;
+
+}
+.config{
+    color: rgb(168, 241, 139);
+    font-weight: bolder;    
+}
+
+.error{
+    color:rgb(253, 181, 181);
+    font-weight: bold;
+}

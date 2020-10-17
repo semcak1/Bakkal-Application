@@ -16,6 +16,7 @@ import {
 } from "src/app/shared/models/customerModel";
 import { ActivatedRoute, Routes } from "@angular/router";
 import { DialogAddDebtComponent } from "../dialog-add-debt/dialog-add-debt.component";
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: "customer-details",
@@ -41,11 +42,26 @@ export class CustomerDetailsComponent implements OnInit {
   totalPayment: any;
   customerPaid: any[];
   totalPay: number;
+  email: any;
+  loginState: { isLoggedIn: boolean; menuTitle: string; };
   constructor(
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private afAuth:AngularFireAuth
+  ) {
+    this.afAuth.user.subscribe((res) => {
+      if (res) {
+        this.email = res.email;
+      }
+    });
+    if(this.afAuth.authState){
+      this.loginState = {
+        isLoggedIn: true,
+        menuTitle: "Müşteri Detay",
+      };
+    }
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
@@ -102,11 +118,15 @@ export class CustomerDetailsComponent implements OnInit {
     this.firebaseService.addDebt(debt, this.id);
   }
 
+  updateDebt(customerId,debtId,data){
+    this.firebaseService.updateDebt(customerId,debtId,data)
+  }
+
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {};
+    dialogConfig.data = {name:'addDebt'};
 
     let dialogRef = this.dialog.open(DialogAddDebtComponent, dialogConfig);
     console.log(".alıyor");
@@ -132,6 +152,27 @@ export class CustomerDetailsComponent implements OnInit {
     const returnedTarget = Object.assign(paid, debt);
     this.firebaseService.addToPaid(this.id, returnedTarget);
     this.firebaseService.deleteDebt(this.id, debt);
+  }
+
+
+  openUpdateDebtForm(value){
+    console.log(value)
+    console.log(this.id)
+    const dialogRef=this.dialog.open(DialogAddDebtComponent,{
+      data:{
+        name:'updateDebt',
+        value:value,
+        date:value.debtDate.toDate()
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result){
+        console.log(result.value)
+        this.updateDebt(this.id,value.debtId,result.value)
+      }
+      
+    })
   }
 
   selectClick(value) {

@@ -1,4 +1,5 @@
-<div class="container">
+<!--Müşteri-Detay da müşteri Borç EKLEME Formu-->
+<div *ngIf="data.name === 'addDebt'" class="container">
   <form #addDebtForm="ngForm" action="">
     <mat-form-field>
       <input
@@ -50,6 +51,170 @@
         mat-raised-button
         color="primary"
         [disabled]="addDebtForm.invalid"
+      >
+        Ekle
+      </button>
+      <button [mat-dialog-close]="false" class="ml-1" mat-raised-button>
+        İptal
+      </button>
+    </mat-card-actions>
+  </form>
+</div>
+
+<!--Müşteri GÜNCELLEME Formu-->
+<div class="updateCustomer" *ngIf="data.name == 'update'">
+  <p>{{data.data.name}}</p>
+  <form
+    #customerUpdateForm="ngForm"
+    (ngSubmit)="updateCustomer(customerUpdateForm)"
+    class="ml-5 mt-5"
+    action=""
+  >
+    <input
+      hidden
+      #customerId="ngModel"
+      name="customerId"
+      [(ngModel)]="data.data.customerId"
+      matInput
+      required
+      minlength="2"
+      placeholder="Ad"
+    />
+    <mat-form-field appearance="legacy">
+      <input
+        #name="ngModel"
+        name="name"
+        [(ngModel)]="data.data.name"
+        matInput
+        required
+        minlength="2"
+        placeholder="Ad"
+      />
+      <mat-hint>Örn: Fikret</mat-hint>
+      <mat-error *ngIf="name.invalid && !customerUpdateForm.untouched">
+        <p *ngIf="name.errors.required">Zorunlu !</p>
+        <p *ngIf="name.errors.minlength">İsim en az 2 karakter olmalı !</p>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <input
+        #surname="ngModel"
+        name="surname"
+        [(ngModel)]="data.data.surname"
+        matInput
+        required
+        placeholder="Soyad"
+      />
+      <mat-hint>Örn: Çakmak</mat-hint>
+      <mat-error *ngIf="surname.invalid && !surname.untouched">
+        <p *ngIf="surname.errors.required">Zorunlu !</p>
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="legacy">
+      <input
+        type="number"
+        #limit="ngModel"
+        name="limit"
+        [(ngModel)]="data.data.limit"
+        matInput
+        required
+        placeholder="Borç Limiti"
+      />
+      <span matSuffix>.00 TL</span>
+      <mat-hint>Örn: 300 Tl</mat-hint>
+      <mat-error *ngIf="limit.invalid && !customerUpdateForm.untouched">
+        <p *ngIf="limit.errors.required">Zorunlu !</p>
+        <p *ngIf="">İsim en az 2 karakter olmalı !</p>
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="legacy">
+      <textarea name="adres"
+      [(ngModel)]="data.data.adres"
+        matInput placeholder="Adres"></textarea>
+      <mat-hint>Örn: Turan Emeksiz sokak.</mat-hint>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field appearance="legacy">
+      <input name="phone" 
+      [(ngModel)]="data.data.phone"
+       matInput placeholder="Telefon" />
+      <mat-hint>Örn: 555 884 15 24</mat-hint>
+    </mat-form-field>
+    <br />
+    <div class="buttons mt-3">
+      <button
+        [disabled]="customerUpdateForm.invalid"
+        type="submit"
+        class="mr-3"
+        mat-raised-button
+        color="primary"
+        [mat-dialog-close]="customerUpdateForm"
+      >
+        Güncelle
+      </button>
+      <button [mat-dialog-close]="false" mat-raised-button color="">
+        İptal
+      </button>
+    </div>
+  </form>
+</div>
+
+<!--Müşteri-Detay da müşteri Borç GÜNCELLEME Formu-->
+<div *ngIf="data.name == 'updateDebt'" class="container">
+  <form #updateDebtForm="ngForm" action="">
+    <mat-form-field>
+      <input
+        matInput
+        #debtPrice="ngModel"
+        [(ngModel)]="data.value.debtPrice"
+        name="debtPrice"
+        type="number"
+        placeholder="Veresiye Miktarı"
+        required
+      />
+      <span matSuffix>&nbsp;.00 TL</span>
+      <mat-hint>Örn : 13.50</mat-hint>
+      <mat-error *ngIf="debtPrice.invalid">Miktar giriniz.</mat-error>
+    </mat-form-field>
+    <br /><br />
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Alınan Ürünler"
+        #products="ngModel"
+        [(ngModel)]="data.value.products"
+        name="products"
+        type="text"
+        class="example-right-align"
+      />
+      <mat-hint>Örn: Sigara,Ekmek</mat-hint>
+    </mat-form-field>
+    <br /><br />
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="Tarih"
+        #debtDate="ngModel"        
+        name="debtDate"
+        [(ngModel)]="data.date"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-hint>Ay/Gün/Yıl</mat-hint>
+    </mat-form-field>
+    <br />
+    <mat-card-actions>
+      <button
+        [mat-dialog-close]="updateDebtForm"
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="updateDebtForm.invalid"
       >
         Ekle
       </button>
