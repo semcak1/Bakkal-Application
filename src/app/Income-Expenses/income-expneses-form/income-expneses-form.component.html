@@ -1,4 +1,4 @@
-<header
+<!-- <header
 [menuTitle]="loginState.menuTitle"
 [isLoggedIn]="loginState.isLoggedIn"
 [userEmail]="email"
@@ -30,8 +30,8 @@
         <br />
         <mat-form-field
           *ngFor="let item of incomeList"
-          [hidden]="item.name !== incomeName || (item.subSections.length==0)"
-        > <!-- hidden property si içindeki name değişkeni bir üst select bölümünden geliyor.-->
+          [hidden]="item.name !== incomeName || (item.subSections.length==0)" -->
+        <!-- > hidden property si içindeki name değişkeni bir üst select bölümünden geliyor.
           <mat-select name="subSection"
           [(ngModel)]="subSection" placeholder="Alt Kalem" #subSec="ngModel" required>
             <mat-option
@@ -46,9 +46,9 @@
         <br>
         <mat-form-field
         *ngFor="let item of incomeList"
-        [hidden]="item.name!== incomeName"
+        [hidden]="item.name!== incomeName" -->
       > <!-- hidden property si içindeki name değişkeni bir üst select bölümünden geliyor.-->
-        <mat-select name="incomeType" 
+        <!-- <mat-select name="incomeType" 
         [(ngModel)]="item.ncomeType" placeholder="Gider Tipi"  #type="ngModel" required>
           <mat-option       
             [value]="item.incomeType"
@@ -69,4 +69,4 @@
   </div>
 
  
-</div>
+</div> -->

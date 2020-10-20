@@ -40,6 +40,8 @@ export class CustomersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   selectedRow: any;
+  customerDebt: any[];
+  total: number;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -79,7 +81,6 @@ export class CustomersComponent implements OnInit {
         )
       )
       .subscribe((customers) => {
-        console.log(customers);
         this.customers = customers;
         this.dataSource = new MatTableDataSource(this.customers);
         this.dataSource.paginator = this.paginator;
@@ -97,7 +98,7 @@ export class CustomersComponent implements OnInit {
 
   clickOnListItem(row) {
     this.selectedRow = row;
-    this.selectedRowId = row.customerId;
+    this.selectedRowId = row.id;
     this.toggle = true;
     console.log(this.selectedRow);
 
@@ -141,4 +142,12 @@ export class CustomersComponent implements OnInit {
       }
     });
   }
+
+ isLimitExceeded(){
+   this.customers.forEach(customer=>{
+     if(customer.totalDept>customer.limit){
+       
+     }
+   })
+ }
 }

@@ -1,10 +1,10 @@
 <header
-[menuTitle]="loginState.menuTitle"
-[isLoggedIn]="loginState.isLoggedIn"
-[userEmail]="email"
+  [menuTitle]="loginState.menuTitle"
+  [isLoggedIn]="loginState.isLoggedIn"
+  [userEmail]="email"
 ></header>
 <div class="row mx-auto">
-  <mat-card class="col-5 m-3">
+  <mat-card  class="col-5 m-3">
     <mat-card-header>
       <mat-card-title
         ><h3>{{ customer.name }} {{ customer.surname }}</h3></mat-card-title
@@ -12,44 +12,71 @@
     </mat-card-header>
     <img mat-card-image src="" alt="" />
     <hr />
-    <mat-card-content class="d-flex">
-      <div class="col-6">
-        <mat-card class="paid">
-          <mat-card-header>
-            <mat-card-title class="">Ödenenler</mat-card-title>
+    <mat-card-content class="p-3">
+      <div *ngIf="false" class="col-11 my-1 mx-auto">
+        <p>{{ message }}</p>
+      </div>
+      <div class="col-12 mb-3">
+        <h4
+          [class.error]="total > customerLimit"
+          *ngIf="total > customerLimit"
+          class="d-flex flex-row"
+        >
+          <mat-icon class="mr-2 ml-5">warning</mat-icon> {{ message }}
+        </h4>
+        <mat-card>
+          <mat-card-header class="">
+            <mat-card-title class="">Limit</mat-card-title>
           </mat-card-header>
           <hr class="mt-0" />
           <mat-card-content>
             <mat-card-title-group>
               <mat-card-title
-                ><h2>{{ totalPay }} TL</h2></mat-card-title
-              >
-              <mat-card-subtitle class="subtitle"
-                ><span>Son Ödeme</span><br />
-                {{ this.datesPaid[0] | date: "fullDate" }}</mat-card-subtitle
+                ><h2>{{ customerLimit }} TL</h2></mat-card-title
               >
             </mat-card-title-group>
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="col-6">
-        <mat-card class="debt">
-          <mat-card-header>
-            <mat-card-title class="">Borçlar</mat-card-title>
-          </mat-card-header>
-          <hr class="mt-0" />
-          <mat-card-content>
-            <mat-card-title-group>
-              <mat-card-title
-                ><h2>{{ total }} TL</h2></mat-card-title
-              >
-              <mat-card-subtitle class="subtitle"
-                ><span>Son Veresiye</span><br />
-                {{ this.datesDebt[0] | date: "fullDate" }}
-              </mat-card-subtitle>
-            </mat-card-title-group>
-          </mat-card-content>
-        </mat-card>
+      <div class="d-flex">
+        <div class="col-6">
+          <mat-card class="paid">
+            <mat-card-header>
+              <mat-card-title class="">Ödenenler</mat-card-title>
+            </mat-card-header>
+            <hr class="mt-0" />
+            <mat-card-content>
+              <mat-card-title-group>
+                <mat-card-title
+                  ><h2>{{ totalPay }} TL</h2></mat-card-title
+                >
+                <mat-card-subtitle class="subtitle"
+                  ><span>Son Ödeme</span><br />
+                  {{ this.datesPaid[0] | date: "fullDate" }}</mat-card-subtitle
+                >
+              </mat-card-title-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-6">
+          <mat-card class="debt">
+            <mat-card-header>
+              <mat-card-title class="">Borçlar</mat-card-title>
+            </mat-card-header>
+            <hr class="mt-0" />
+            <mat-card-content>
+              <mat-card-title-group>
+                <mat-card-title
+                  ><h2>{{ total }} TL</h2></mat-card-title
+                >
+                <mat-card-subtitle class="subtitle"
+                  ><span>Son Veresiye</span><br />
+                  {{ this.datesDebt[0] | date: "fullDate" }}
+                </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -86,7 +113,13 @@
                 />
               </mat-form-field>
 
-              <button (click)="openDialog()" color="primary" mat-icon-button>
+              <button
+                (click)="openDialog()"
+                color="primary"
+                mat-icon-button
+                matTooltip="Ekle"
+                matTooltipClass="add-tooltip"
+              >
                 <mat-icon>add</mat-icon>
               </button>
             </div>
@@ -135,6 +168,9 @@
                       class="delete"
                       mat-icon-button
                       color="warn"
+                      matTooltip="Sil"
+                      matTooltipClass="delete-tooltip"
+                      (click)="openDeleteSnackBar()"
                     >
                       <mat-icon
                         aria-label="Example icon-button with a heart icon"
@@ -145,7 +181,8 @@
                       (click)="openUpdateDebtForm(row)"
                       class="update"
                       mat-icon-button
-                      
+                      matTooltip="Güncelle"
+                      matTooltipClass="update-tooltip"
                     >
                       <mat-icon
                         aria-label="Example icon-button with a heart icon"

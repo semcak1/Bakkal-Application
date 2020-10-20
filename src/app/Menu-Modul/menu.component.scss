@@ -1,0 +1,29 @@
+.delete-tooltip{
+    background: linear-gradient(45deg,rgb(201, 26, 26),red);
+}
+
+.add-tooltip{
+    background: linear-gradient(45deg,rgb(160, 26, 201),#673AB7);
+}
+.update-tooltip{
+    background: linear-gradient(45deg,rgb(160, 26, 201),#673AB7);
+}
+.details-tooltip{
+    background: linear-gradient(45deg,rgb(160, 26, 201),#673AB7);
+}
+
+.add-snackbar{
+    color:rgb(122, 214, 122);
+    font-size: 50px;
+    font-weight: bolder ;
+}
+.delete-snackbar{
+    color:rgb(122, 214, 122);
+    font-size: 50px;
+    font-weight: bolder ;
+}
+.update-snackbar{
+    color:rgb(247, 245, 141);
+    font-size: 50px;
+    font-weight: bolder ;
+}

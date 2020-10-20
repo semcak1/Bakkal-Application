@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { FirebaseService } from "src/app/core/firebase.service";
 import { componentProp, Customer } from "src/app/shared/models/customerModel";
 import { map } from "rxjs/operators";
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "add-customer",
@@ -13,10 +13,12 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 export class AddCustomerComponent implements OnInit {
   len: number;
   componentProp: componentProp;
+  email='';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)public data,
-    private firebaseService: FirebaseService) {
+    private firebaseService: FirebaseService,
+    private snackBar: MatSnackBar
+  ) {
     this.componentProp = {
       menuTitle: "Müşteri Ekle",
       componentName: "login",
@@ -41,16 +43,24 @@ export class AddCustomerComponent implements OnInit {
     console.log(form.value);
 
     const customer: Customer = {
-      customerId: '0',
+      customerId: "0",
       name: "",
       surname: "",
       totalDept: 0,
       adres: "",
       phone: "",
-      limit:0,
+      limit: 0,
     };
     const returnedTarget = Object.assign(customer, form.value);
     this.firebaseService.addCustomer(returnedTarget);
     form.resetForm();
+  }
+
+  openAddSnackBar() {
+    const message = "Başarıyla kaydedildi.";
+    this.snackBar.open(message,'', {
+      duration: 2000,
+      panelClass: ['add-snackbar'],
+    });
   }
 }

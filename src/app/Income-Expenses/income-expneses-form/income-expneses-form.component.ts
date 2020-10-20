@@ -31,28 +31,28 @@ export class IncomeExpnesesFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  incomeList:Income[]=[
-    {
-      category:"Ciro",
-      subCategory:[],
-      incomeType:true
-    },
-    {
-      category:"Sigara",
-      subCategory:["Philip Morris","Japan Tobacco","British Tobacco","Europan Tobacco","Polo-West"],
-      incomeType:false
-    },
-    {
-      category:"Toptancı",
-      subCategory:["Zırhlıoğlu","Özbereket","Mega-Center","Rami","Süleyman","Bolulu","Turşucu","Yumurta-Sedat","Yumurta-Furkan","Hırdavatçı"],
-      incomeType:false
-    },
-    {
-      category:"İçecekler",
-      subCategory:["Pepsi","Coca-Cola","Anadolu-Gıda"],
-      incomeType:false
-    }
-  ]
+  // incomeList:Income[]=[
+  //   {
+  //     category:"Ciro",
+  //     subCategory:[],
+  //     incomeType:true
+  //   },
+  //   {
+  //     category:"Sigara",
+  //     subCategory:["Philip Morris","Japan Tobacco","British Tobacco","Europan Tobacco","Polo-West"],
+  //     incomeType:false
+  //   },
+  //   {
+  //     category:"Toptancı",
+  //     subCategory:["Zırhlıoğlu","Özbereket","Mega-Center","Rami","Süleyman","Bolulu","Turşucu","Yumurta-Sedat","Yumurta-Furkan","Hırdavatçı"],
+  //     incomeType:false
+  //   },
+  //   {
+  //     category:"İçecekler",
+  //     subCategory:["Pepsi","Coca-Cola","Anadolu-Gıda"],
+  //     incomeType:false
+  //   }
+  // ]
   onFormSubmit(form:NgForm){
     console.log(form.value)
         

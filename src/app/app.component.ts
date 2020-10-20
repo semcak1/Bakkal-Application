@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Subscription } from 'rxjs';
+
 import { componentProp } from './shared/models/customerModel';
 
 @Component({
@@ -8,6 +12,7 @@ import { componentProp } from './shared/models/customerModel';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  
   title = 'Bakkal-Application';
-
+ 
 }

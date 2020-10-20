@@ -24,12 +24,15 @@ export class FirebaseService {
   }
 
   //CUSTOMERS ACTİONS//
+  // Müşteri ekle sil güncelle işlemleri
 
   getDocuments(collection:string,filter?:any){
     //firebase den verileri sıralı olarak alma
     this.customerCollection=this.afs.collection<Customer>(collection,ref=>ref.orderBy("customerId","asc"));   
     return this.customerCollection.snapshotChanges();
   }
+
+  
 
   addCustomer(customer){
     this.afs.collection<Customer>('Customer').add(customer)
@@ -45,6 +48,8 @@ export class FirebaseService {
     this.afs.collection('Customer').doc(id).update(data)
   }
 
+  //Debt and Payment Actions
+  // Müşteri Detay sayfasında Ekle sil güncelle işlmeleri
   getAllDebt(id:string){
     this.debtCollection=this.afs.collection('Customer/'+id+'/Debt');
     return this.debtCollection.snapshotChanges();
@@ -76,21 +81,12 @@ export class FirebaseService {
 
 
     // Category Actions
+    //Gelir-Gider Sayfası kategori ekle sil güncelle işlemleri
     getIncomesCategory(){
       this.debtCollection=this.afs.collection('Income');
       return this.debtCollection.snapshotChanges();
     }
-
-    addIncome(income,id:string){
-      this.afs.collection('Customer/'+id+'/IncomeExpense').add(income)
-      console.log('income aded !')
-    }
-
-    getAllIncomes(id:string){
-      this.debtCollection=this.afs.collection('Income/'+id+'/IncomeExpense');
-      return this.debtCollection.snapshotChanges();
-    }
-
+    
     addCategory(data){
       this.afs.collection('Income').add(data)
     }
@@ -104,11 +100,8 @@ export class FirebaseService {
     }
 
     //Sub Category Actions
-
-    getSubCategory(id:string){
-      this.afs.collection(id,)
-    }
-
+    //gelir-gider Detay sayfası eklesil güncelleme işlemler
+   
     addIncomeExpense(id:string,subCategory:string,data){
       this.afs.collection('Income/'+id+'/'+subCategory).add(data)
     }
@@ -116,4 +109,14 @@ export class FirebaseService {
     getIncomeExpense(id:string,subCategory:string){
       return this.afs.collection('Income/'+id+'/'+subCategory).snapshotChanges();
     }
+
+    deleteIncomeExpense(categoryId:string,subCategoryName:string,IncExpId:string){
+      this.afs.collection('Income/'+categoryId+'/'+subCategoryName).doc(IncExpId).delete();
+    }
+
+    updateIncomeExpense(categoryId:string,subCategoryName:string,IncExpId:string,data){
+      this.afs.collection('Income/'+categoryId+'/'+subCategoryName+'/').doc(IncExpId).update(data)
+    }
+
+
 }

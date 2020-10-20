@@ -51,6 +51,7 @@
         mat-raised-button
         color="primary"
         [disabled]="addDebtForm.invalid"
+        (click)="openAddSnackBar()"
       >
         Ekle
       </button>
@@ -153,6 +154,7 @@
         mat-raised-button
         color="primary"
         [mat-dialog-close]="customerUpdateForm"
+        (click)="openUpdateSnackBar()"
       >
         Güncelle
       </button>
@@ -215,8 +217,9 @@
         mat-raised-button
         color="primary"
         [disabled]="updateDebtForm.invalid"
+        (click)="openUpdateSnackBar()"
       >
-        Ekle
+        Güncelle
       </button>
       <button [mat-dialog-close]="false" class="ml-1" mat-raised-button>
         İptal

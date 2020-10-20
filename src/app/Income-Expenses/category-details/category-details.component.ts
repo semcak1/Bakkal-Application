@@ -11,7 +11,7 @@ import {
   MatTableDataSource,
 } from "@angular/material";
 import { CategoriAddFormComponent } from "../categori-add-form/categori-add-form.component";
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from "angularfire2/auth";
 
 @Component({
   selector: "category-details",
@@ -27,23 +27,26 @@ export class CategoryDetailsComponent implements OnInit {
   category: string;
   toggle: boolean = false;
   displayedColumns: string[] = ["gider", "tarih", "işlemler"];
+  lastOperationDates: any[];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   email: string;
   loginState: componentProp;
+  lastDate: any;
+  totalIncExp: any;
   constructor(
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private afAuth:AngularFireAuth
+    private afAuth: AngularFireAuth
   ) {
     this.afAuth.user.subscribe((res) => {
       if (res) {
         this.email = res.email;
       }
     });
-    if(this.afAuth.authState){
+    if (this.afAuth.authState) {
       this.loginState = {
         isLoggedIn: true,
         menuTitle: "Gelir - Gider Detay",
@@ -120,17 +123,11 @@ export class CategoryDetailsComponent implements OnInit {
     let dialogRef = this.dialog.open(CategoriAddFormComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((result) => {
-      
-      if(result){
+      if (result) {
         console.log(result.value);
         this.addIncomeExpense(result.value);
       }
-     
     });
-  }
-
-  addIncomeExpense(data) {
-    this.firebaseService.addIncomeExpense(this.id, this.subCategory, data);
   }
 
   getIncomeExpense() {
@@ -149,9 +146,73 @@ export class CategoryDetailsComponent implements OnInit {
       .subscribe((subCategories) => {
         console.log(subCategories);
         this.subCategories = subCategories;
+        this.findLastEnteredData(this.subCategories);
+        this.totalIncomeExpense(this.subCategories);
         this.dataSource = new MatTableDataSource(this.subCategories);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
+  }
+
+  addIncomeExpense(data) {
+    this.firebaseService.addIncomeExpense(this.id, this.subCategory, data);
+  }
+
+  deleteIncomeExpense(data) {
+    console.log(this.id);
+    console.log(this.subCategory);
+    console.log(data);
+    this.firebaseService.deleteIncomeExpense(
+      this.id,
+      this.subCategory,
+      data.incExpId
+    );
+  }
+/*Güncelleme Formunu açar ve forma gelen değerleri value ile alır.*/
+  openDialogUpdateIncomeExpense(value) {
+    let dialogRef = this.dialog.open(CategoriAddFormComponent, {
+      data: {
+        name: "updateIncomeExpense",
+        income: value.income,
+        date: value.date.toDate(),
+      },
+    });
+    this.getUpdatedIncomeExpenseResult(dialogRef,value.incExpId)
+  }
+/*güncelleme formundaki bilgileri ve güncellenen harcamanın idsini alır*/
+  getUpdatedIncomeExpenseResult(formData,incExpId){
+    formData.afterClosed().subscribe(result=>{
+      if(result){
+             console.log(result.value)
+      this.updateIncomeExpense(this.id,this.subCategory,incExpId,result.value)
+      }
+ 
+    })
+  }
+/*kategori id  harcama yada gelir in ismini ve bu isme bağlı olan harcamanın id sini ve güncellme form datasını alır firebase gönderir.*/
+  updateIncomeExpense(categoryId,IncomeExpenseName,IncomeExpenseId,data){
+    this.firebaseService.updateIncomeExpense(categoryId,IncomeExpenseName,IncomeExpenseId,data)
+  }
+
+  findLastEnteredData(IncExpData) {
+    this.lastOperationDates = [];
+    IncExpData.forEach((data) => {
+      if (data.date) {
+        this.lastOperationDates.push(data.date);
+      }
+    });
+    this.lastOperationDates.sort((a, b) => {
+      return b - a;
+    });
+    if (this.lastOperationDates.length !== 0) {
+      this.lastDate = this.lastOperationDates[0].toDate();
+    }
+  }
+
+  totalIncomeExpense(IncExpData) {
+    this.totalIncExp = 0;
+    IncExpData.forEach((data) => {
+      this.totalIncExp = data.income + this.totalIncExp;
+    });
   }
 }

@@ -19,6 +19,7 @@ import { AuthguardGuard } from './core/authguard.guard';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,LoginComponent,LoginDialogComponent
@@ -29,6 +30,7 @@ import { AuthguardGuard } from './core/authguard.guard';
     SharedModule,
     CoreModule,
     MenuModule,
+    
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

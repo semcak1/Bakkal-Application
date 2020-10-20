@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'dialog-ex',
@@ -8,9 +8,19 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DialogExComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any) { }
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data:any,
+  private snackBar:MatSnackBar) { }
+  messages={
+    deletMessage:'Başarıyla Silinidi.'
+  }
   ngOnInit() {
   }
 
+  openDeleteSnackBar() {
+    
+    this.snackBar.open(this.messages.deletMessage,'', {
+      duration: 2000,
+      panelClass: ["delete-snackbar"],
+    });
+  }
 }

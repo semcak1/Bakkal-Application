@@ -17,4 +17,15 @@ table {
     background-color:lighten($color: #673AB7, $amount: 100) 
  
 }
+.error{
+  background-color: rgb(175, 68, 68);
+  
+
+  .mat-cell{
+    color:white;
+    .color{
+      color:white
+    }
+  }
+}
 

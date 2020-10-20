@@ -1,38 +1,35 @@
 <header
-[menuTitle]="loginState.menuTitle"
-[isLoggedIn]="loginState.isLoggedIn"
-[userEmail]="email"
+  [menuTitle]="loginState.menuTitle"
+  [isLoggedIn]="loginState.isLoggedIn"
+  [userEmail]="email"
 ></header>
 <div class="row mx-auto">
   <mat-card class="col-5 m-3">
     <mat-card-header>
       <mat-card-title
-        ><h3>{{ category }} </h3></mat-card-title
+        ><h1>{{ category | uppercase }}</h1></mat-card-title
       >
     </mat-card-header>
     <img mat-card-image src="" alt="" />
     <hr />
     <mat-card-content class="d-flex">
-      <div class="col-6">
+      <div class="col-12">
         <mat-card class="paid">
           <mat-card-header>
-            <mat-card-title class="">Ödenenler</mat-card-title>
+            <mat-card-title class=""><h2>{{ category == "Ciro" ? "Ciro" : "Harcama" }}</h2></mat-card-title>
           </mat-card-header>
           <hr class="mt-0" />
           <mat-card-content>
             <mat-card-title-group>
-              <mat-card-title
-                ><h2>TL</h2></mat-card-title
-              >
+              <mat-card-title><h2>{{totalIncExp}} TL</h2></mat-card-title>
               <mat-card-subtitle class="subtitle"
-                ><span>Son Ödeme</span><br />
-                </mat-card-subtitle
-              >
+                ><span>Son işlem</span><br />{{lastDate | date:'fullDate':'tr'}}
+              </mat-card-subtitle>
             </mat-card-title-group>
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="col-6">
+      <!-- <div class="col-6">
         <mat-card class="debt">
           <mat-card-header>
             <mat-card-title class="">Borçlar</mat-card-title>
@@ -40,17 +37,14 @@
           <hr class="mt-0" />
           <mat-card-content>
             <mat-card-title-group>
-              <mat-card-title
-                ><h2> TL</h2></mat-card-title
-              >
+              <mat-card-title><h2>TL</h2></mat-card-title>
               <mat-card-subtitle class="subtitle"
                 ><span>Son Veresiye</span><br />
-                
               </mat-card-subtitle>
             </mat-card-title-group>
           </mat-card-content>
         </mat-card>
-      </div>
+      </div> -->
     </mat-card-content>
   </mat-card>
 
@@ -65,19 +59,28 @@
                 <mat-option
                   *ngFor="let table of tables"
                   (click)="selectClick(table)"
-                  [value]="table"                  
+                  [value]="table"
                 >
-                  {{table}}
+                  {{ table }}
                 </mat-option>
               </mat-select>
             </h5>
           </mat-form-field>
-          <button *ngIf="toggle" (click)="openIncomeDialog()" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+          <button
+            *ngIf="toggle"
+            (click)="openIncomeDialog()"
+            mat-icon-button
+            color="primary"
+            matTooltip="Ekle"
+            matTooltipClass="add-tooltip"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <ng-container >
-          <ng-container >
+        <ng-container>
+          <ng-container>
             <div class="">
               <mat-form-field>
                 <input
@@ -86,8 +89,6 @@
                   placeholder="Filter"
                 />
               </mat-form-field>
-
-              
             </div>
             <div class="mat-elevation-z8">
               <table mat-table [dataSource]="dataSource" matSort>
@@ -99,20 +100,19 @@
 
                 <!-- Progress Column -->
                 <ng-container matColumnDef="gider">
-                  <th mat-header-cell                  
-                  *matHeaderCellDef mat-sort-header>
-                    {{category=='Ciro'? 'Ciro' : 'Harcama'}}
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="income">
+                    {{ category == "Ciro" ? "Ciro" : "Harcama" }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{row.income}} TL</td>
+                  <td mat-cell *matCellDef="let row">{{ row.income }} TL</td>
                 </ng-container>
 
                 <!-- Color Column -->
                 <ng-container matColumnDef="tarih">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="date">
                     Tarih
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    {{row.date.toDate() | date:'fullDate':tr}}
+                    {{ row.date.toDate() | date: "fullDate":tr }}
                   </td>
                 </ng-container>
 
@@ -123,14 +123,29 @@
                   </th>
                   <td mat-cell *matCellDef="let row">
                     <button
-                      (click)="deleteDebt(row)"
+                      (click)="deleteIncomeExpense(row)"
                       class="delete"
                       mat-icon-button
                       color="warn"
+                      matTooltip="Sil"
+                      matTooltipClass="delete-tooltip"
                     >
                       <mat-icon
                         aria-label="Example icon-button with a heart icon"
                         >delete</mat-icon
+                      >
+                    </button>
+                    <button
+                      (click)="openDialogUpdateIncomeExpense(row)"
+                      class="delete"
+                      mat-icon-button
+                      color=""
+                      matTooltip="Güncelle"
+                      matTooltipClass="update-tooltip"
+                    >
+                      <mat-icon
+                        aria-label="Example icon-button with a heart icon"
+                        >cached</mat-icon
                       >
                     </button>
                   </td>

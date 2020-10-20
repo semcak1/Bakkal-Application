@@ -3,6 +3,7 @@ import {
   MatDialog,
   MatDialogConfig,
   MatPaginator,
+  MatSnackBar,
   MatSort,
   MatTableDataSource,
 } from "@angular/material";
@@ -16,7 +17,7 @@ import {
 } from "src/app/shared/models/customerModel";
 import { ActivatedRoute, Routes } from "@angular/router";
 import { DialogAddDebtComponent } from "../dialog-add-debt/dialog-add-debt.component";
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from "angularfire2/auth";
 
 @Component({
   selector: "customer-details",
@@ -32,30 +33,42 @@ export class CustomerDetailsComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   customerDebt: any[];
   customer: any;
+  customers: any[];
   id: string;
   option: string;
-  total: number = 0;
-  datesDebt:number[]=[];
-  datesPaid:number[]=[]
+  total: number;
+  datesDebt: number[] = [];
+  datesPaid: number[] = [];
+
+  messages={
+    addMessage:'Başarıyla Eklendi.',
+    deleteMessage:'Başarıyla Silindi.'    
+  };
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   totalPayment: any;
   customerPaid: any[];
   totalPay: number;
   email: any;
-  loginState: { isLoggedIn: boolean; menuTitle: string; };
+  loginState: { isLoggedIn: boolean; menuTitle: string };
+  customerLimit: number;
+  data: any;
+  message: string = "Limit Aşıldı !";
+  setCustomerDebt: Customer;
   constructor(
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private afAuth:AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private snackBar:MatSnackBar
   ) {
     this.afAuth.user.subscribe((res) => {
       if (res) {
         this.email = res.email;
       }
     });
-    if(this.afAuth.authState){
+    if (this.afAuth.authState) {
       this.loginState = {
         isLoggedIn: true,
         menuTitle: "Müşteri Detay",
@@ -75,9 +88,12 @@ export class CustomerDetailsComponent implements OnInit {
 
     this.getCustomersDebt();
     this.getCustomersPaid();
+    this.getCustomers();
 
     console.log("totalpaid");
     console.log(this.totalPayment);
+
+    console.log(this);
   }
 
   //get data from firebase service
@@ -101,7 +117,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.customerDebt);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.totalDebt();
+        this.totalDebt(customerDebt);
         this.findLastDebtDate();
       });
   }
@@ -118,23 +134,24 @@ export class CustomerDetailsComponent implements OnInit {
     this.firebaseService.addDebt(debt, this.id);
   }
 
-  updateDebt(customerId,debtId,data){
-    this.firebaseService.updateDebt(customerId,debtId,data)
+  updateDebt(customerId, debtId, data) {
+    this.firebaseService.updateDebt(customerId, debtId, data);
   }
 
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {name:'addDebt'};
+    dialogConfig.data = { name: "addDebt" };
 
     let dialogRef = this.dialog.open(DialogAddDebtComponent, dialogConfig);
     console.log(".alıyor");
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+       
         this.addDebt(result.value);
-        result.value;
+        
       }
     });
   }
@@ -154,39 +171,37 @@ export class CustomerDetailsComponent implements OnInit {
     this.firebaseService.deleteDebt(this.id, debt);
   }
 
+  openUpdateDebtForm(value) {
+    console.log(value);
+    console.log(this.id);
+    const dialogRef = this.dialog.open(DialogAddDebtComponent, {
+      data: {
+        name: "updateDebt",
+        value: value,
+        date: value.debtDate.toDate(),
+      },
+    });
 
-  openUpdateDebtForm(value){
-    console.log(value)
-    console.log(this.id)
-    const dialogRef=this.dialog.open(DialogAddDebtComponent,{
-      data:{
-        name:'updateDebt',
-        value:value,
-        date:value.debtDate.toDate()
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result.value);
+        this.updateDebt(this.id, value.debtId, result.value);
       }
-    })
-
-    dialogRef.afterClosed().subscribe(result=>{
-      if(result){
-        console.log(result.value)
-        this.updateDebt(this.id,value.debtId,result.value)
-      }
-      
-    })
+    });
   }
 
   selectClick(value) {
     this.option = value;
     console.log(value);
+    this.updateCustomerTotalDebt()
+    
   }
 
-  totalDebt() {
+  totalDebt(customerDebt) {
     this.total = 0;
-    this.customerDebt.forEach((debt) => {
+    customerDebt.forEach((debt) => {
       this.total = debt.debtPrice + this.total;
-      console.log(debt.debtPrice);
     });
-    console.log(this.customerDebt);
   }
 
   getCustomersPaid() {
@@ -204,7 +219,6 @@ export class CustomerDetailsComponent implements OnInit {
         )
       )
       .subscribe((customerPaid) => {
-        console.log(customerPaid);
         this.customerPaid = customerPaid;
         this.totalPaid();
         this.findLastPaidDate();
@@ -213,33 +227,89 @@ export class CustomerDetailsComponent implements OnInit {
   totalPaid() {
     this.totalPay = 0;
     this.customerPaid.forEach((paid) => {
-      console.log(paid);
       this.totalPay = Number(paid.debtPrice + this.totalPay);
     });
   }
 
-  findLastDebtDate(){
-    this.customerDebt.forEach(debt=>{  
-       console.log(debt.debtDate)     
-      const date=debt.debtDate.toDate();
-      this.datesDebt.push(date)
+  findLastDebtDate() {
+    this.customerDebt.forEach((debt) => {
+      console.log(debt.debtDate);
+      const date = debt.debtDate.toDate();
+      this.datesDebt.push(date);
       // this.dates.push(debt.debtDate.seconds)
-    })
-    this.datesDebt.sort((a:number,b:number)=>b-a)
-    this.datesDebt[0]
-    console.log(this.datesDebt[0])
+    });
+    this.datesDebt.sort((a: number, b: number) => b - a);
+    this.datesDebt[0];
+    console.log(this.datesDebt[0]);
   }
-  
-  findLastPaidDate(){
-    this.customerPaid.forEach(paid=>{  
-      console.log(paid.paymentDate.toDate())    
-      const date=paid.paymentDate.toDate()
-      this.datesPaid.push(date)
+
+  findLastPaidDate() {
+    this.customerPaid.forEach((paid) => {
+      console.log(paid.paymentDate.toDate());
+      const date = paid.paymentDate.toDate();
+      this.datesPaid.push(date);
       // this.dates.push(debt.debtDate.seconds)
-    })
-    this.datesPaid.sort((a:number,b:number)=>b-a)
-    console.log(this.datesPaid)  
-    this.datesPaid[0]
-    console.log(this.datesPaid[0])
+    });
+    this.datesPaid.sort((a: number, b: number) => b - a);
+    console.log(this.datesPaid);
+    this.datesPaid[0];
+    console.log(this.datesPaid[0]);
+  }
+
+  getCustomers(): any {
+    //
+    this.firebaseService
+      .getDocuments("Customer")
+      .pipe(
+        map((changes) =>
+          changes.map((c) => {
+            return {
+              id: c.payload.doc.id,
+              ...(c.payload.doc.data() as {}),
+            };
+          })
+        )
+      )
+      .subscribe((customers) => {
+        this.customers = customers;
+        this.getCustomerLimit(customers, this.id);
+        
+        
+      });
+  }
+
+  getCustomerLimit(documents, id: string) {
+    documents.forEach((doc) => {
+      if (doc.id === id) {
+        this.customerLimit = doc.limit;
+      }
+    });
+  }
+
+  updateCustomerTotalDebt() {
+    this.customers.forEach((customer) => {
+      if (customer.id === this.id) {
+        this.setCustomerDebt = {
+          name: customer.name,
+          surname: customer.surname,
+          adres: customer.adres,
+          customerId: customer.customerId,
+          phone: customer.phone,
+          totalDept: this.total,
+          limit: customer.limit,
+        };
+        console.log(this.setCustomerDebt)
+        this.firebaseService.updateCustomer(this.id,this.setCustomerDebt)
+      }
+
+    });
+  }
+
+  openDeleteSnackBar() {
+    
+    this.snackBar.open(this.messages.deleteMessage,'', {
+      duration: 2000,
+      panelClass: ["delete-snackbar"],
+    });
   }
 }
