@@ -1,3 +1,6 @@
+
+![bakkalappmkv-2020-11-13-214741-X](https://user-images.githubusercontent.com/38374895/99113114-c65ffe00-25ff-11eb-8238-69736821c64a.gif)
+
 # BakkalApplication
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
